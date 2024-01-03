@@ -39,6 +39,16 @@ function formatoi_vastaus(vast) {
     return arr;
 }
 
+function annaTulostus(vastArr, oikArr){
+    if (vastArr[0] == oikArr[0] && vastArr[1] == oikArr[1]){
+        return "Oikein!";
+    } else if (vastArr[0] == 4){
+        return "Eka nro on 4";
+    }
+    return "Nyt meni jotakin pieleen!";
+
+}
+
 let vastArr = formatoi_vastaus("=-32/17");
 let oikArr = murtolukujenSumma(1,2,3,2);
 console.log(vastArr[0])

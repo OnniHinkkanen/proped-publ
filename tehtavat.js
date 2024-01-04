@@ -10,6 +10,10 @@ function gcd(a, b) {
     }
     return a;
 }
+module.exports = {
+    gcd,
+    murtolukujenSumma,
+};
 
 function murtolukujenSumma(a,b,c,d){
     let osoittaja = a*d + b*c;
@@ -23,33 +27,36 @@ function murtolukujenSumma(a,b,c,d){
     return [osoittaja, nimittaja];
 }
 
+
 function formatoi_vastaus(vast) {
     let temp = vast;
     if (temp.includes("=")){
         temp = temp.substring(1);
     }
     if (!temp.includes("/")){
-        console.log("Ei murtoluku!")
-        return;
+        //console.log("Ei murtoluku!")
+        return [temp, 1];
     }
     const arr = temp.split("/");
 
-    console.log(arr[0]);
-    console.log(arr[1]);
+    //console.log(arr[0]);
+    //console.log(arr[1]);
     return arr;
 }
 
 function annaTulostus(vastArr, oikArr){
     if (vastArr[0] == oikArr[0] && vastArr[1] == oikArr[1]){
         return "Oikein!";
-    } else if (vastArr[0] == 4){
-        return "Eka nro on 4";
-    }
+    } else if (gcd(vastArr[0], vastArr[1]) > 1 ) {
+        if  (vastArr[0]%oikArr[0] == 0 && vastArr[1]%oikArr[1] == 0) {
+            return "Vastaus ei ole sievimmässä mahdollisessa muodossa."
+        } 
+    } 
     return "Nyt meni jotakin pieleen!";
-
 }
 
-let vastArr = formatoi_vastaus("=-32/17");
-let oikArr = murtolukujenSumma(1,2,3,2);
-console.log(vastArr[0])
-console.log(vastArr[1])
+let vastArr = formatoi_vastaus("=1");
+let oikArr = murtolukujenSumma(1,2,1,2);
+//console.log(vastArr[0])
+//console.log(vastArr[1])
+console.log(annaTulostus(vastArr, oikArr));

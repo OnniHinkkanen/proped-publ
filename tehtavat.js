@@ -10,12 +10,6 @@ function gcd(a, b) {
     }
     return a;
 }
-module.exports = {
-    gcd,
-    murtolukujenSumma,
-     formatoiVastaus
-
-};
 
 function murtolukujenSumma(a,b,c,d){
     let osoittaja = a*d + b*c;
@@ -60,6 +54,13 @@ function annaTulostus(vastArr, oikArr){
     return "Nyt meni jotakin pieleen!";
 }
 
+module.exports = {
+    gcd,
+    murtolukujenSumma,
+    formatoiVastaus,
+    annaTulostus
+
+};
 
 let vastArr = formatoiVastaus("1");
 let oikArr = murtolukujenSumma(1,2,1,2);

@@ -3,7 +3,7 @@ function gcd(a, b) {
     a = Math.abs(a);
     b = Math.abs(b);
 
-    while (b !== 0) {
+    while (b !== 0 && b !== NaN) {
         let temp = b;
         b = a % b;
         a = temp;
@@ -13,6 +13,8 @@ function gcd(a, b) {
 module.exports = {
     gcd,
     murtolukujenSumma,
+     formatoiVastaus
+
 };
 
 function murtolukujenSumma(a,b,c,d){
@@ -28,14 +30,14 @@ function murtolukujenSumma(a,b,c,d){
 }
 
 
-function formatoi_vastaus(vast) {
+function formatoiVastaus(vast) {
     let temp = vast;
     if (temp.includes("=")){
         temp = temp.substring(1);
     }
     if (!temp.includes("/")){
         //console.log("Ei murtoluku!")
-        return [temp, 1];
+        return [temp, '1'];
     }
     const arr = temp.split("/");
 
@@ -45,7 +47,10 @@ function formatoi_vastaus(vast) {
 }
 
 function annaTulostus(vastArr, oikArr){
-    if (vastArr[0] == oikArr[0] && vastArr[1] == oikArr[1]){
+    if (vastArr[0] === parseInt(vastArr[0]) || vastArr[1] === parseInt(vastArr[1]) ){
+        return "Syötteesi ei ole numeerisessa muodossa!"
+    }
+    else if (vastArr[0] == oikArr[0] && vastArr[1] == oikArr[1]){
         return "Oikein!";
     } else if (gcd(vastArr[0], vastArr[1]) > 1 ) {
         if  (vastArr[0]%oikArr[0] == 0 && vastArr[1]%oikArr[1] == 0) {
@@ -55,8 +60,9 @@ function annaTulostus(vastArr, oikArr){
     return "Nyt meni jotakin pieleen!";
 }
 
-let vastArr = formatoi_vastaus("=1");
+
+let vastArr = formatoiVastaus("1");
 let oikArr = murtolukujenSumma(1,2,1,2);
-//console.log(vastArr[0])
-//console.log(vastArr[1])
+console.log(vastArr[0])
+console.log(vastArr[1])
 console.log(annaTulostus(vastArr, oikArr));

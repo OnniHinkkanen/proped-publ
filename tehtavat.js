@@ -119,6 +119,14 @@ function getFeedback(vastArr, oikArr){
     return "Nyt meni jotakin pieleen!";
 }
 
+function round(num, decimals) {
+    return num.toFixed(decimals);
+}
+
+function truncate(num, decimals) {
+    return Math.floor(num*10**decimals)/(10**decimals);
+}
+
 module.exports = {
     gcd,
     fracSum,
@@ -128,11 +136,5 @@ module.exports = {
     getFeedback
 };
 
-console.log(getFeedback
-(['da','2'],[1,3]));
-
-let vastArr = formatAns("24/4");
-let oikArr = fracSum(4,1,8,4);
-console.log(vastArr[0])
-console.log(vastArr[1])
-console.log(getFeedback(vastArr, oikArr));
+console.log(round(0.00029, 4))
+console.log(truncate(1.123456, 100))

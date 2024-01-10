@@ -99,7 +99,7 @@ function formatAns(vast) {
  * @param {Array[number]} oikArr actual answer as an array
  * @return {string} feedback to be printed
  */
-function getFeedback(vastArr, oikArr){
+function getFeedbackFrac(vastArr, oikArr){
     let tempArr = [parseInt(vastArr[0]), parseInt(vastArr[1])]
     
     if (isNaN(tempArr[0]) || isNaN(tempArr[1])){
@@ -127,14 +127,25 @@ function truncate(num, decimals) {
     return Math.floor(num*10**decimals)/(10**decimals);
 }
 
+function decSum(a,b,ans){
+
+}
+
+function decProd(a,b,ans){
+    
+}
+
 module.exports = {
     gcd,
     fracSum,
     fracProd,
     fracQuot,
     formatAns,
-    getFeedback
+    getFeedbackFrac
 };
 
+let a = '0.112'
+let b = '0.634'
+console.log(a + b);
 console.log(round(0.00029, 4))
 console.log(truncate(1.123456, 100))

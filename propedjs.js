@@ -1,3 +1,4 @@
+// ------------------ Variables BEGIN -----------------------------------
 /**
  * Calculates the gcd of two numbers
  * @param {number} a
@@ -141,6 +142,8 @@ function decSum(a,b,ans){
 function decProd(a,b,ans){
     
 }
+
+// ------------------ Variables END -----------------------------------
 
 module.exports = {
     gcd,

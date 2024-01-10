@@ -1,7 +1,7 @@
 SLEEP 1
 git add --all
 SLEEP 1
-git commit -m "%1"
+git commit -m "%*"
 SLEEP 1
 git push
 
@@ -15,7 +15,7 @@ git checkout main -- push.bat
 SLEEP 1
 git add --all
 SLEEP 1
-git commit -m "%1"
+git commit -m "%*"
 SLEEP 1
 git push
 

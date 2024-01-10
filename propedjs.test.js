@@ -1,4 +1,4 @@
-const { gcd, fracSum, fracProd, fracQuot, formatAns, getFeedbackFrac} = require('./tehtavat');
+const { gcd, fracSum, fracProd, fracQuot, formatAns, getFeedbackFrac} = require('./propedjs');
 
 
 describe("gcd", () => {
@@ -67,10 +67,18 @@ describe("fracProd", () => {
     expect(fracProd(2,4,2,4)).toStrictEqual([1,4]);
   });
 
+  test('5/2 * 10/5 = 5/1', () => {
+    expect(fracProd(5,2,10,5)).toStrictEqual([5,1]);
+  });
+
 });
 
 describe("getFeedbackFrac", () => {
  
+  test('50/10 and 5/1 should not be equal', () => {
+    expect(getFeedbackFrac(['50','10'],[5,1])).toBe("Vastaus ei ole sievimmässä mahdollisessa muodossa.");
+  });
+
   test('1/2 and 1/2 should be equal', () => {
     expect(getFeedbackFrac(['1','2'],[1,2])).toBe("Oikein!");
   });

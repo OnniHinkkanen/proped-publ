@@ -159,6 +159,6 @@ module.exports = {
 };
 
 
-console.log(getFeedbackFrac(['20','12'], [2,1]));
+console.log(getFeedbackFrac(['50','10'], [5,1]));
 console.log(round(0.00029, 4))
 console.log(truncate(1.123456, 100))

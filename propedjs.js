@@ -119,6 +119,13 @@ function getFeedbackFrac(vastArr, oikArr){
     return "Nyt meni jotakin pieleen!";
 }
 
+/**
+ * Rounds decimal numbers 
+ *
+ * @param {number} num Number to be rounded
+ * @param {number} decimals amount of decimals 
+ * @return {number} rounded number
+ */
 function round(num, decimals) {
     return num.toFixed(decimals);
 }

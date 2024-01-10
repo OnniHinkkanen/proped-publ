@@ -112,7 +112,7 @@ function getFeedbackFrac(vastArr, oikArr){
         if (tempArr[1] == 1) {
             return "Nyt meni jotakin pieleen!";
         }
-        if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0) {
+        if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0 && oikArr[1] != 1) {
             return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
         } 
     } 
@@ -141,11 +141,14 @@ module.exports = {
     fracProd,
     fracQuot,
     formatAns,
-    getFeedbackFrac
+    getFeedbackFrac,
+    round,
+    truncate,
+    decSum,
+    decProd
 };
 
-let a = '0.112'
-let b = '0.634'
-console.log(a + b);
+
+console.log(getFeedbackFrac(['20','12'], [2,1]));
 console.log(round(0.00029, 4))
 console.log(truncate(1.123456, 100))

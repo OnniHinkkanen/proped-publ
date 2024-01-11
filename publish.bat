@@ -6,7 +6,7 @@ IF NOT "%*"=="" (
 	SET msg=%*
 )
 
-taskkill /im Code.exe
+taskkill /f /im Code.exe
 
 timeout /t 1
 git add --all

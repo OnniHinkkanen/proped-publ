@@ -103,17 +103,20 @@ function formatAns(vast) {
 function getFeedbackFrac(vastArr, oikArr){
     let tempArr = [parseInt(vastArr[0]), parseInt(vastArr[1])]
     
+
     if (isNaN(tempArr[0]) || isNaN(tempArr[1])){
         return "Syötteesi ei ole numeerisessa muodossa!";
     }
 
+    let gcdAns = gcd(tempArr[0], tempArr[1]);
+    
     if (tempArr[0] == oikArr[0] && tempArr[1] == oikArr[1]){
         return "Oikein!";
-    } else if (gcd(tempArr[0], tempArr[1]) > 1 ) {
-        if (tempArr[1] == 1) {
+    } else if (gcdAns > 1 ) {
+        if (oikArr[1] == 1 && tempArr[1]/gcdAns != 1) {
             return "Nyt meni jotakin pieleen!";
         }
-        if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0 && oikArr[1] != 1) {
+        if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0 ) {
             return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
         } 
     } 
@@ -158,6 +161,7 @@ module.exports = {
     decProd
 };
 
+console.log(getFeedbackFrac(['da','10'], [5,1]));
 
 console.log(getFeedbackFrac(['50','10'], [5,1]));
 console.log(round(0.00029, 4))

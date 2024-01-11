@@ -1,3 +1,5 @@
+taskkill /im Code.exe
+
 timeout /t 1
 git add --all
 timeout /t 1

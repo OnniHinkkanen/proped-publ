@@ -71,36 +71,49 @@ describe("fracProd", () => {
     expect(fracProd(5,2,10,5)).toStrictEqual([5,1]);
   });
 
+  test('10/8 * 4/9 = 5/9', () => {
+    expect(fracProd(10,8,4,9)).toStrictEqual([5,9]);
+  });
+
 });
 
 describe("getFeedbackFrac", () => {
  
+  let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
+  let virhe = "Nyt meni jotakin pieleen!";
+  let oikein = "Oikein!";
+  let syote = "Syötteesi ei ole numeerisessa muodossa!";
+
   test('50/10 and 5/1 should not be equal', () => {
-    expect(getFeedbackFrac(['50','10'],[5,1])).toBe("Vastaus ei ole sievimmässä mahdollisessa muodossa.");
+    expect(getFeedbackFrac(['50','10'],[5,1])).toBe(sievennys);
+  });
+
+  test('40/36 and 5/9 should not be equal', () => {
+    expect(getFeedbackFrac(['40','36'],[5,9])).toBe(virhe);
   });
 
   test('1/2 and 1/2 should be equal', () => {
-    expect(getFeedbackFrac(['1','2'],[1,2])).toBe("Oikein!");
+    expect(getFeedbackFrac(['1','2'],[1,2])).toBe(oikein);
   });
 
   test('2/4 and 1/2 should be simplified', () => {
-    expect(getFeedbackFrac(['2','4'],[1,2])).toBe("Vastaus ei ole sievimmässä mahdollisessa muodossa.");
+    expect(getFeedbackFrac(['2','4'],[1,2])).toBe(sievennys);
   });
 
   test('20/12 and 2/1 should not be equal', () => {
-    expect(getFeedbackFrac(['20','12'],[2,1])).toBe("Nyt meni jotakin pieleen!");
+    expect(getFeedbackFrac(['20','12'],[2,1])).toBe(virhe);
   });
 
   test('1/2 and 1/3 should not be equal', () => {
-    expect(getFeedbackFrac(['1','2'],[1,3])).toBe("Nyt meni jotakin pieleen!");
+    expect(getFeedbackFrac(['1','2'],[1,3])).toBe(virhe);
   });
   
   test('1a/2 and 1/3 should not be equal', () => {
-    expect(getFeedbackFrac(['1a','2'],[1,3])).toBe("Nyt meni jotakin pieleen!");
+    expect(getFeedbackFrac(['1a','2'],[1,3])).toBe(virhe);
   });
 
   test('da/2 and 1/3 should not be equal', () => {
-    expect(getFeedbackFrac(['da','2'],[1,3])).toBe("Syötteesi ei ole numeerisessa muodossa!");
+    expect(getFeedbackFrac(['da','2'],[1,3])).toBe(syote);
   });
 
 });

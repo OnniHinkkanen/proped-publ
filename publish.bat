@@ -34,6 +34,7 @@ git checkout main
 
 timeout /t 1 
 
-start c:\"Program Files"\"Microsoft VS Code"\Code.exe
 start c:\windows\system32\cmd.exe
+\timeout /t 1
+start c:\"Program Files"\"Microsoft VS Code"\Code.exe
 exit

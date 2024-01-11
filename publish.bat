@@ -1,9 +1,17 @@
+IF "%*"=="" (
+	SET "msg=publish"
+)
+
+IF NOT "%*"=="" (
+	SET msg=%*
+)
+
 taskkill /im Code.exe
 
 timeout /t 1
 git add --all
 timeout /t 1
-git commit -m "%*"
+git commit -m "%msg%"
 timeout /t 1
 git push
 
@@ -17,7 +25,7 @@ git checkout main -- publish.bat
 timeout /t 1
 git add --all
 timeout /t 1
-git commit -m "%*"
+git commit -m "%msg%"
 timeout /t 1
 git push
 

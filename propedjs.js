@@ -103,19 +103,25 @@ function formatAns(vast) {
 function getFeedbackFrac(vastArr, oikArr){
     let tempArr = [parseInt(vastArr[0]), parseInt(vastArr[1])]
     
+
     if (isNaN(tempArr[0]) || isNaN(tempArr[1])){
         return "Syötteesi ei ole numeerisessa muodossa!";
     }
 
+    let gcdAns = gcd(tempArr[0], tempArr[1]);
+    
     if (tempArr[0] == oikArr[0] && tempArr[1] == oikArr[1]){
         return "Oikein!";
-    } else if (gcd(tempArr[0], tempArr[1]) > 1 ) {
-        if (tempArr[1] == 1) {
+    } else if (gcdAns > 1 ) {
+        if (oikArr[1] == 1 && tempArr[1]/gcdAns != 1) {
             return "Nyt meni jotakin pieleen!";
         }
-        if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0 && oikArr[1] != 1) {
+        //if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0 ) {
+        //    return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
+        //}
+        if  (tempArr[0]/ gcdAns == oikArr[0] && tempArr[1]/gcdAns == oikArr[1] ) {
             return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
-        } 
+        }  
     } 
     return "Nyt meni jotakin pieleen!";
 }
@@ -131,14 +137,35 @@ function round(num, decimals) {
     return num.toFixed(decimals);
 }
 
+/**
+ * 
+ *
+ * @param {*} num 
+ * @param {*} decimals 
+ * @return 
+ */
 function truncate(num, decimals) {
     return Math.floor(num*10**decimals)/(10**decimals);
 }
 
+/**
+ * 
+ *
+ * @param {*} a 
+ * @param {*} b 
+ * @param {*} ans 
+ */
 function decSum(a,b,ans){
 
 }
 
+/**
+ * 
+ *
+ * @param {*} a 
+ * @param {*} b 
+ * @param {*} ans 
+ */
 function decProd(a,b,ans){
     
 }
@@ -158,7 +185,8 @@ module.exports = {
     decProd
 };
 
+console.log(getFeedbackFrac(['40','36'],[5,9]))
 
-console.log(getFeedbackFrac(['20','12'], [2,1]));
+console.log(getFeedbackFrac(['50','10'], [5,1]));
 console.log(round(0.00029, 4))
 console.log(truncate(1.123456, 100))

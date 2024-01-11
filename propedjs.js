@@ -100,7 +100,7 @@ function formatAns(vast) {
  * @param {Array[number]} oikArr actual answer as an array
  * @return {string} feedback to be printed
  */
-function getFeedbackFrac(vastArr, oikArr){
+function fracFeedback(vastArr, oikArr){
     let tempArr = [parseInt(vastArr[0]), parseInt(vastArr[1])]
     
 
@@ -151,12 +151,30 @@ function truncate(num, decimals) {
 /**
  * 
  *
- * @param {*} a 
- * @param {*} b 
- * @param {*} ans 
+ * @param {string} a 1st dec number
+ * @param {string} b 2nd dec number
+ * @param {string} ans what the user entered
  */
-function decSum(a,b,ans){
+function decSumFeedback(a,b,ans){
+    let temp = ans;
+    if (temp.includes("=")){
+        temp = temp.substring(1);
+    }
+    let pa = parseFloat(a.replace(',','.')), pb = parseFloat(b.replace(',','.')), pans = parseFloat(temp.replace(',','.'));
+    if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
+        return "Syötteesi ei ole numeerisessa muodossa!";
+    }
+    
+    let sum = pa + pb;
+    let truncSum = truncate(sum, Math.min(a.length, b.length))
 
+    
+
+    if (truncSum == pans) {
+        return "Oikein!";
+    }
+
+    return "Nyt meni jotakin pieleen!";
 }
 
 /**
@@ -178,15 +196,11 @@ module.exports = {
     fracProd,
     fracQuot,
     formatAns,
-    getFeedbackFrac,
+    fracFeedback,
     round,
     truncate,
-    decSum,
+    decSumFeedback,
     decProd
 };
 
-console.log(getFeedbackFrac(['40','36'],[5,9]))
-
-console.log(getFeedbackFrac(['50','10'], [5,1]));
-console.log(round(0.00029, 4))
-console.log(truncate(1.123456, 100))
+console.log(decSumFeedback('-0.11', '0.23', '0.12'))

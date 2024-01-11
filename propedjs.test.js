@@ -1,4 +1,4 @@
-const { gcd, fracSum, fracProd, fracQuot, formatAns, getFeedbackFrac} = require('./propedjs');
+const { gcd, fracSum, fracProd, fracQuot, formatAns, fracFeedback, decSumFeedback} = require('./propedjs');
 
 
 describe("gcd", () => {
@@ -77,7 +77,7 @@ describe("fracProd", () => {
 
 });
 
-describe("getFeedbackFrac", () => {
+describe("fracFeedback", () => {
  
   let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
   let virhe = "Nyt meni jotakin pieleen!";
@@ -85,35 +85,35 @@ describe("getFeedbackFrac", () => {
   let syote = "Syötteesi ei ole numeerisessa muodossa!";
 
   test('50/10 and 5/1 should not be equal', () => {
-    expect(getFeedbackFrac(['50','10'],[5,1])).toBe(sievennys);
+    expect(fracFeedback(['50','10'],[5,1])).toBe(sievennys);
   });
 
   test('40/36 and 5/9 should not be equal', () => {
-    expect(getFeedbackFrac(['40','36'],[5,9])).toBe(virhe);
+    expect(fracFeedback(['40','36'],[5,9])).toBe(virhe);
   });
 
   test('1/2 and 1/2 should be equal', () => {
-    expect(getFeedbackFrac(['1','2'],[1,2])).toBe(oikein);
+    expect(fracFeedback(['1','2'],[1,2])).toBe(oikein);
   });
 
   test('2/4 and 1/2 should be simplified', () => {
-    expect(getFeedbackFrac(['2','4'],[1,2])).toBe(sievennys);
+    expect(fracFeedback(['2','4'],[1,2])).toBe(sievennys);
   });
 
   test('20/12 and 2/1 should not be equal', () => {
-    expect(getFeedbackFrac(['20','12'],[2,1])).toBe(virhe);
+    expect(fracFeedback(['20','12'],[2,1])).toBe(virhe);
   });
 
   test('1/2 and 1/3 should not be equal', () => {
-    expect(getFeedbackFrac(['1','2'],[1,3])).toBe(virhe);
+    expect(fracFeedback(['1','2'],[1,3])).toBe(virhe);
   });
   
   test('1a/2 and 1/3 should not be equal', () => {
-    expect(getFeedbackFrac(['1a','2'],[1,3])).toBe(virhe);
+    expect(fracFeedback(['1a','2'],[1,3])).toBe(virhe);
   });
 
   test('da/2 and 1/3 should not be equal', () => {
-    expect(getFeedbackFrac(['da','2'],[1,3])).toBe(syote);
+    expect(fracFeedback(['da','2'],[1,3])).toBe(syote);
   });
 
 });
@@ -144,5 +144,21 @@ describe("formatAns", () => {
     expect(formatAns("=-1/2")).toStrictEqual(['-1','2']);
   });
 
+
+});
+
+describe("decSumFeedback", () => {
+  
+  test('0.11 + 0.23 to be 0.34', () => {
+    expect(decSumFeedback('0.11', '0.23', '0.34')).toBe("Oikein!");
+  });
+
+  test('0.11 + 0.23 to be 0.34', () => {
+    expect(decSumFeedback('0.114', '0.483', '0,597')).toBe("Oikein!");
+  });
+  
+  test('-0.11 + 0.23 to be 0.12', () => {
+    expect(decSumFeedback('-0.11', '0.23', '0.12')).toBe("Oikein!");
+  });
 
 });

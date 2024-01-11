@@ -6,9 +6,9 @@ IF NOT "%*"=="" (
 	SET msg=%*
 )
 
-taskkill /f /im Code.exe
+taskkill /im Code.exe
 
-timeout /t 1
+timeout /t 3
 git add --all
 timeout /t 1 
 git commit -m "%msg%"

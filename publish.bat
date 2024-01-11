@@ -12,7 +12,7 @@ git checkout public
 timeout /t 1
 git checkout main -- propedjs.js
 timeout /t 1
-git checkout main -- push.bat
+git checkout main -- publish.bat
 
 timeout /t 1
 git add --all

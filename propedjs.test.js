@@ -1,5 +1,15 @@
-const { gcd, fracSum, fracProd, fracQuot, formatFracAns, fracFeedback, decSumFeedback, stringReplace} = require('./propedjs');
-
+const { gcd, 
+  fracSum, 
+  fracProd, 
+  fracQuot, 
+  formatFracAns, 
+  fracFeedback, 
+  decSumFeedback, 
+  stringReplace,
+  sievennys,
+  virhe,
+  oikein,
+  syote} = require('./propedjs');
 
 describe("gcd", () => {
   test('gcd of 2 and 2 should be 2', () => {
@@ -78,11 +88,6 @@ describe("fracProd", () => {
 });
 
 describe("fracFeedback", () => {
- 
-  let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
-  let virhe = "Nyt meni jotakin pieleen!";
-  let oikein = "Oikein!";
-  let syote = "Syötteesi ei ole numeerisessa muodossa!";
 
   test('50/10 and 5/1 should not be equal', () => {
     expect(fracFeedback(['50','10'],[5,1])).toBe(sievennys);
@@ -144,11 +149,10 @@ describe("formatFracAns", () => {
     expect(formatFracAns("=-1/2")).toStrictEqual(['-1','2']);
   });
 
-
 });
 
 describe("decSumFeedback", () => {
-  
+
   test('0.11 + 0.23 to be 0.34', () => {
     expect(decSumFeedback('0.11', '0.23', '0.34')).toBe("Oikein!");
   });
@@ -165,12 +169,16 @@ describe("decSumFeedback", () => {
     expect(decSumFeedback('0.105', '0.365', '=0,470')).toBe("Oikein!");
   });
 
-  test('0.705 + 0.365 to be 0.470', () => {
+  test('0.705 + 0.365 to be 1.070', () => {
     expect(decSumFeedback('0.705', '0.365', '=1,070')).toBe("Oikein!");
   });
 
-  test('0.705 + 0.365 to be 0.470', () => {
+  test('0.705 + 0.365 to be 1.07', () => {
     expect(decSumFeedback('0.705', '0.365', '=1,07')).toBe("Oikein!");
+  });
+
+  test('0.705 + 0.365 should not be 1.071', () => {
+    expect(decSumFeedback('0.705', '0.365', '=1,071')).toBe(virhe);
   });
 
 });
@@ -181,4 +189,11 @@ describe("stringReplace", () => {
     expect(stringReplace('0,470',',','.')).toBe('0.470');
   });
 
+  test('0.470 should be 0.470', () => {
+    expect(stringReplace('0.470',',','.')).toBe('0.470');
+  });
+
+  test('0,47,0 should be 0.47.0', () => {
+    expect(stringReplace('0,47,0',',','.')).toBe('0.47.0');
+  });
 });

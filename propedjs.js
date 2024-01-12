@@ -1,4 +1,10 @@
 // ------------------ Variables BEGIN -----------------------------------
+
+let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
+let virhe = "Nyt meni jotakin pieleen!";
+let oikein = "Oikein!";
+let syote = "Syötteesi ei ole numeerisessa muodossa!";
+
 /**
  * Calculates the gcd of two numbers
  * @param {number} a
@@ -105,25 +111,25 @@ function fracFeedback(vastArr, oikArr){
     
 
     if (isNaN(tempArr[0]) || isNaN(tempArr[1])){
-        return "Syötteesi ei ole numeerisessa muodossa!";
+        return syote;
     }
 
     let gcdAns = gcd(tempArr[0], tempArr[1]);
     
     if (tempArr[0] == oikArr[0] && tempArr[1] == oikArr[1]){
-        return "Oikein!";
+        return oikein;
     } else if (gcdAns > 1 ) {
         if (oikArr[1] == 1 && tempArr[1]/gcdAns != 1) {
-            return "Nyt meni jotakin pieleen!";
+            return virhe;
         }
         //if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0 ) {
         //    return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
         //}
         if  (tempArr[0]/ gcdAns == oikArr[0] && tempArr[1]/gcdAns == oikArr[1] ) {
-            return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
+            return sievennys;
         }  
     } 
-    return "Nyt meni jotakin pieleen!";
+    return virhe;
 }
 
 /**
@@ -175,17 +181,17 @@ function decSumFeedback(a,b,ans){
     }
     let pa = parseFloat(a.replace(',','.')), pb = parseFloat(b.replace(',','.')), pans = parseFloat(temp.replace(',','.'));
     if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-        return "Syötteesi ei ole numeerisessa muodossa!";
+        return syote;
     }
     
     let sum = pa + pb;
         // TODO: approximately equal, since dealing with floats. Truncating does not work    
 
     if (approxEq(sum, pans)) {
-        return "Oikein!";
+        return oikein;
     }
 
-    return "Nyt meni jotakin pieleen!";
+    return virhe;
 }
 
 /**
@@ -236,7 +242,11 @@ module.exports = {
     truncate,
     decSumFeedback,
     decProd,
-    stringReplace
+    stringReplace,
+    sievennys,
+    virhe,
+    oikein,
+    syote
 };
 
 console.log(decSumFeedback('0.705', '0.365', '=1,070'))

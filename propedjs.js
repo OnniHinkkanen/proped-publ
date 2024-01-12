@@ -3,7 +3,7 @@
 let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
 let virhe = "Nyt meni jotakin pieleen!";
 let oikein = "Oikein!";
-let syote = "Syötteesi ei ole numeerisessa muodossa!";
+let syoteVast = "Syötteesi ei ole numeerisessa muodossa!";
 
 /**
  * Calculates the gcd of two numbers
@@ -102,23 +102,31 @@ function formatFracAns(vast) {
 /**
  * 
  *
- * @param {string} a 1st dec number
- * @param {string} b 2nd dec number
+ * @param {number} a 1st dec number
+ * @param {number} b 2nd dec number
  * @param {string} ans what the user entered
  */
 function decSumFeedback(a,b,ans){
-    let tempAns = String(ans);
-    let tempa = String(a);
-    let tempb = String(b);
-    
+    let tempAns = String(ans),
+        pa = a,
+        pb = b;
+
+    if (typeof a != 'number'){
+        pa = parseFloat(a);
+    }
+
+    if (typeof b != 'number'){
+        pb = parseFloat(b);
+    }
+
     if (tempAns.includes("=")){
         tempAns = tempAns.substring(1);
     }
-    let pa = parseFloat(tempa.replace(',','.')), 
-    pb = parseFloat(tempb.replace(',','.')), 
+
     pans = parseFloat(tempAns.replace(',','.'));
+
     if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-        return syote;
+        return syoteVast;
     }
     
     let sum = pa + pb;
@@ -143,7 +151,7 @@ function fracFeedback(vastArr, oikArr){
     
 
     if (isNaN(tempAnsArr[0]) || isNaN(tempAnsArr[1])){
-        return syote;
+        return syoteVast;
     }
 
     let gcdAns = gcd(tempAnsArr[0], tempAnsArr[1]);
@@ -253,7 +261,7 @@ module.exports = {
     sievennys,
     virhe,
     oikein,
-    syote
+    syoteVast
 };
 
 console.log(decSumFeedback('0.705', '0.365', '=1,070'))

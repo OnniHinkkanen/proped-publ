@@ -9,7 +9,7 @@ const { gcd,
   sievennys,
   virhe,
   oikein,
-  syote} = require('./propedjs');
+  syoteVast} = require('./propedjs');
 
 describe("gcd", () => {
   test('gcd of 2 and 2 should be 2', () => {
@@ -118,7 +118,7 @@ describe("fracFeedback", () => {
   });
 
   test('da/2 and 1/3 should not be equal', () => {
-    expect(fracFeedback(['da','2'],[1,3])).toBe(syote);
+    expect(fracFeedback(['da','2'],[1,3])).toBe(syoteVast);
   });
 
 });
@@ -154,31 +154,31 @@ describe("formatFracAns", () => {
 describe("decSumFeedback", () => {
 
   test('0.11 + 0.23 to be 0.34', () => {
-    expect(decSumFeedback('0.11', '0.23', '0.34')).toBe("Oikein!");
+    expect(decSumFeedback(0.11, 0.23, '0.34')).toBe("Oikein!");
   });
 
   test('0.11 + 0.23 to be 0.34', () => {
-    expect(decSumFeedback('0.114', '0.483', '0,597')).toBe("Oikein!");
+    expect(decSumFeedback(0.114, 0.483, '0,597')).toBe("Oikein!");
   });
   
   test('-0.11 + 0.23 to be 0.12', () => {
-    expect(decSumFeedback('-0.11', '0.23', '0.12')).toBe("Oikein!");
+    expect(decSumFeedback(-0.11, 0.23, '0.12')).toBe("Oikein!");
   });
 
   test('0.105 + 0.365 to be 0.470', () => {
-    expect(decSumFeedback('0.105', '0.365', '=0,470')).toBe("Oikein!");
+    expect(decSumFeedback(0.105, 0.365, '=0,470')).toBe("Oikein!");
   });
 
   test('0.705 + 0.365 to be 1.070', () => {
-    expect(decSumFeedback('0.705', '0.365', '=1,070')).toBe("Oikein!");
+    expect(decSumFeedback(0.705, 0.365, '=1,070')).toBe("Oikein!");
   });
 
   test('0.705 + 0.365 to be 1.07', () => {
-    expect(decSumFeedback('0.705', '0.365', '=1,07')).toBe("Oikein!");
+    expect(decSumFeedback(0.705, 0.365, '=1,07')).toBe("Oikein!");
   });
 
   test('0.705 + 0.365 should not be 1.071', () => {
-    expect(decSumFeedback('0.705', '0.365', '=1,071')).toBe(virhe);
+    expect(decSumFeedback(0.705, 0.365, '=1,071')).toBe(virhe);
   });
 
 });

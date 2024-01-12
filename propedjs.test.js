@@ -1,4 +1,4 @@
-const { gcd, fracSum, fracProd, fracQuot, formatAns, fracFeedback, decSumFeedback} = require('./propedjs');
+const { gcd, fracSum, fracProd, fracQuot, formatFracAns, fracFeedback, decSumFeedback, stringReplace} = require('./propedjs');
 
 
 describe("gcd", () => {
@@ -118,30 +118,30 @@ describe("fracFeedback", () => {
 
 });
 
-describe("formatAns", () => {
+describe("formatFracAns", () => {
   
   test('=1/2 to [1,2]', () => {
-    expect(formatAns("=1/2")).toStrictEqual(['1','2']);
+    expect(formatFracAns("=1/2")).toStrictEqual(['1','2']);
   });
 
   test('1/2 to [1,2]', () => {
-    expect(formatAns("1/2")).toStrictEqual(['1','2']);
+    expect(formatFracAns("1/2")).toStrictEqual(['1','2']);
   });
 
   test('12 to [12,1]', () => {
-    expect(formatAns("12")).toStrictEqual(['12','1']);
+    expect(formatFracAns("12")).toStrictEqual(['12','1']);
   });
 
   test('12 to [12,1]', () => {
-    expect(formatAns("=12")).toStrictEqual(['12','1']);
+    expect(formatFracAns("=12")).toStrictEqual(['12','1']);
   });
 
   test('1/1/2 to [12,1]', () => {
-    expect(formatAns("1/1/2")).toStrictEqual(['1','1','2']);
+    expect(formatFracAns("1/1/2")).toStrictEqual(['1','1','2']);
   });
 
   test('=-1/2 to [1,2]', () => {
-    expect(formatAns("=-1/2")).toStrictEqual(['-1','2']);
+    expect(formatFracAns("=-1/2")).toStrictEqual(['-1','2']);
   });
 
 
@@ -163,6 +163,22 @@ describe("decSumFeedback", () => {
 
   test('0.105 + 0.365 to be 0.470', () => {
     expect(decSumFeedback('0.105', '0.365', '=0,470')).toBe("Oikein!");
+  });
+
+  test('0.705 + 0.365 to be 0.470', () => {
+    expect(decSumFeedback('0.705', '0.365', '=1,070')).toBe("Oikein!");
+  });
+
+  test('0.705 + 0.365 to be 0.470', () => {
+    expect(decSumFeedback('0.705', '0.365', '=1,07')).toBe("Oikein!");
+  });
+
+});
+
+describe("stringReplace", () => {
+  
+  test('0,470 should be 0.470', () => {
+    expect(stringReplace('0,470',',','.')).toBe('0.470');
   });
 
 });

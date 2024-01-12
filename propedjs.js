@@ -77,7 +77,7 @@ function fracQuot(a,b,c,d) {
  * @param {string} vast user input
  * @return {Array[string]} input split into array
  */
-function formatAns(vast) {
+function formatFracAns(vast) {
     let temp = vast;
     if (temp.includes("=")){
         temp = temp.substring(1);
@@ -151,6 +151,19 @@ function truncate(num, decimals) {
 /**
  * 
  *
+ * @param {number} v1 
+ * @param {number} v2 
+ * @param {number} epsilon 
+ * @return 
+ */
+function approxEq(v1, v2, epsilon = 0.0001) {
+    return Math.abs(v1 - v2) < epsilon;
+  };
+
+
+/**
+ * 
+ *
  * @param {string} a 1st dec number
  * @param {string} b 2nd dec number
  * @param {string} ans what the user entered
@@ -166,11 +179,9 @@ function decSumFeedback(a,b,ans){
     }
     
     let sum = pa + pb;
-    let truncSum = truncate(sum, Math.min(a.length, b.length))
+        // TODO: approximately equal, since dealing with floats. Truncating does not work    
 
-    
-
-    if (truncSum == pans) {
+    if (approxEq(sum, pans)) {
         return "Oikein!";
     }
 
@@ -200,7 +211,16 @@ function stringReplace(string, oldChar, newChar){
     if (!string.includes(oldChar)) {
         return string;
     }
-
+    newString = "";
+    for (i = 0; i < string.length; i++){
+        char = string.charAt(i)
+        if (char != oldChar){
+            newString = newString + char;
+        } else {
+            newString = newString + newChar;
+        }
+    }
+    return newString;
 }
 
 // ------------------ Variables END -----------------------------------
@@ -210,7 +230,7 @@ module.exports = {
     fracSum,
     fracProd,
     fracQuot,
-    formatAns,
+    formatFracAns,
     fracFeedback,
     round,
     truncate,
@@ -219,4 +239,4 @@ module.exports = {
     stringReplace
 };
 
-console.log(decSumFeedback('-0.11', '0.23', '0.12'))
+console.log(decSumFeedback('0.705', '0.365', '=1,070'))

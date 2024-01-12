@@ -3,7 +3,7 @@
 let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
 let virhe = "Nyt meni jotakin pieleen!";
 let oikein = "Oikein!";
-let syoteVast = "Syötteesi ei ole numeerisessa muodossa!";
+let syoteVirhe = "Syötteesi ei ole numeerisessa muodossa!";
 
 /**
  * Calculates the gcd of two numbers
@@ -16,7 +16,7 @@ function gcd(a, b) {
     a = Math.abs(a);
     b = Math.abs(b);
 
-    while (b !== 0 && b !== NaN) {
+    while (b !== 0 && b !== NaN && a !== NaN) {
         let tempAns = b;
         b = a % b;
         a = tempAns;
@@ -100,44 +100,70 @@ function formatFracAns(vast) {
 }
 
 /**
- * 
+ * Returns feedback for decimal sum answer
  *
- * @param {number} a 1st dec number
- * @param {number} b 2nd dec number
- * @param {string} ans what the user entered
+ * @param {number/string} a 1st decimal number
+ * @param {number/string} b 2nd decimal number
+ * @param {string} ans user answer
+ * @return feedback string
  */
-function decSumFeedback(a,b,ans){
-    let tempAns = String(ans),
-        pa = a,
-        pb = b;
-
-    if (typeof a != 'number'){
-        pa = parseFloat(a);
-    }
-
-    if (typeof b != 'number'){
-        pb = parseFloat(b);
-    }
-
-    if (tempAns.includes("=")){
-        tempAns = tempAns.substring(1);
-    }
-
-    pans = parseFloat(tempAns.replace(',','.'));
-
-    if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-        return syoteVast;
-    }
-    
-    let sum = pa + pb;
-        // TODO: approximately equal, since dealing with floats. Truncating does not work    
-
-    if (approxEq(sum, pans)) {
-        return oikein;
-    }
-
-    return virhe;
+function decSumFeedback(a,b,ans) {
+    return decFeedback(a,b,ans, f = (x,y) => x + y);
 }
+
+/**
+ * Returns feedback for decimal product answer
+ *
+ * @param {number/string} a 1st decimal number
+ * @param {number/string} b 2nd decimal number
+ * @param {string} ans user answer
+ * @return feedback string
+ */
+function decProdFeedback(a,b,ans) {
+    return decFeedback(a,b,ans, f = (x,y) => x*y);
+}
+
+/**
+ * Returns feedback for decimal number operation
+ *
+ * @param {number/string} a 1st decimal number
+ * @param {number/string} b 2nd decimal number
+ * @param {string} ans user answer
+ * @param {function} f operation as a function of two variables
+ * @return 
+ */
+function decFeedback(a, b, ans, f){
+    let tempAns = String(ans),
+    pa = a,
+    pb = b;
+
+if (typeof a != 'number'){
+    pa = parseFloat(a);
+}
+
+if (typeof b != 'number'){
+    pb = parseFloat(b);
+}
+
+if (tempAns.includes("=")){
+    tempAns = tempAns.substring(1);
+}
+
+pans = parseFloat(tempAns.replace(',','.'));
+
+if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
+    return syoteVirhe;
+}
+
+let result = f(pa, pb);
+
+if (approxEq(result, pans)) {
+    return oikein;
+}
+
+return virhe;
+}
+
 
 /**
  * Returns the feedback string for the corresponding user input
@@ -151,7 +177,7 @@ function fracFeedback(vastArr, oikArr){
     
 
     if (isNaN(tempAnsArr[0]) || isNaN(tempAnsArr[1])){
-        return syoteVast;
+        return syoteVirhe;
     }
 
     let gcdAns = gcd(tempAnsArr[0], tempAnsArr[1]);
@@ -209,16 +235,7 @@ function approxEq(v1, v2, epsilon = 0.0001) {
 
 
 
-/**
- * 
- *
- * @param {*} a 
- * @param {*} b 
- * @param {*} ans 
- */
-function decProd(a,b,ans){
-    
-}
+
 
 
 /**
@@ -256,12 +273,86 @@ module.exports = {
     round,
     truncate,
     decSumFeedback,
-    decProd,
+    decProdFeedback,
     stringReplace,
     sievennys,
     virhe,
     oikein,
-    syoteVast
+    syoteVirhe
 };
 
-console.log(decSumFeedback('0.705', '0.365', '=1,070'))
+console.log(decFeedback('0.705', '0.365', '=1,070', f = (x,y) => x + y));
+console.log(decFeedback('0.245', '0.483', '0,118335', f= (x,y) => x*y));
+
+// ================================================= OLD JUNK =====================================================
+function olddecSumFeedback(a,b,ans){
+    let tempAns = String(ans),
+        pa = a,
+        pb = b;
+
+    if (typeof a != 'number'){
+        pa = parseFloat(a);
+    }
+
+    if (typeof b != 'number'){
+        pb = parseFloat(b);
+    }
+
+    if (tempAns.includes("=")){
+        tempAns = tempAns.substring(1);
+    }
+
+    pans = parseFloat(tempAns.replace(',','.'));
+
+    if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
+        return syoteVirhe;
+    }
+    
+    let sum = pa + pb;
+        // TODO: approximately equal, since dealing with floats. Truncating does not work    
+
+    if (approxEq(sum, pans)) {
+        return oikein;
+    }
+
+    return virhe;
+}
+
+/**
+ * 
+ *
+ * @param {number} a 1st dec number
+ * @param {number} b 2nd dec number
+ * @param {string} ans what the user entered
+ */
+function olddecProdFeedback(a,b,ans){
+    let tempAns = String(ans),
+    pa = a,
+    pb = b;
+
+if (typeof a != 'number'){
+    pa = parseFloat(a);
+}
+
+if (typeof b != 'number'){
+    pb = parseFloat(b);
+}
+
+if (tempAns.includes("=")){
+    tempAns = tempAns.substring(1);
+}
+
+pans = parseFloat(tempAns.replace(',','.'));
+
+if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
+    return syoteVirhe;
+}
+
+let prod = pa*pb;
+
+if (approxEq(prod, pans)) {
+    return oikein;
+}
+
+return virhe;
+}

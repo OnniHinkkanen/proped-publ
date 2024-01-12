@@ -5,11 +5,12 @@ const { gcd,
   formatFracAns, 
   fracFeedback, 
   decSumFeedback, 
+  decProdFeedback,
   stringReplace,
   sievennys,
   virhe,
   oikein,
-  syoteVast} = require('./propedjs');
+  syoteVirhe} = require('./propedjs');
 
 describe("gcd", () => {
   test('gcd of 2 and 2 should be 2', () => {
@@ -118,7 +119,7 @@ describe("fracFeedback", () => {
   });
 
   test('da/2 and 1/3 should not be equal', () => {
-    expect(fracFeedback(['da','2'],[1,3])).toBe(syoteVast);
+    expect(fracFeedback(['da','2'],[1,3])).toBe(syoteVirhe);
   });
 
 });

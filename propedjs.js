@@ -107,9 +107,9 @@ function formatFracAns(vast) {
  * @param {string} ans what the user entered
  */
 function decSumFeedback(a,b,ans){
-    let tempAns = ans;
-    let tempa = a;
-    let tempb = b;
+    let tempAns = String(ans);
+    let tempa = String(a);
+    let tempb = String(b);
     
     if (tempAns.includes("=")){
         tempAns = tempAns.substring(1);

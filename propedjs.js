@@ -179,7 +179,7 @@ function decSumFeedback(a,b,ans){
     if (temp.includes("=")){
         temp = temp.substring(1);
     }
-    let pa = parseFloat(a.replace(',','.')), pb = parseFloat(b.replace(',','.')), pans = parseFloat(temp.replace(',','.'));
+    let pa = parseFloat(stringReplace(a,',','.')), pb = parseFloat(stringReplace(b,',','.')), pans = parseFloat(stringReplace(temp,',','.'));
     if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
         return syote;
     }

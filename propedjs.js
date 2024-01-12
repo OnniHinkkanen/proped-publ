@@ -1,4 +1,10 @@
 // ------------------ Variables BEGIN -----------------------------------
+
+let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
+let virhe = "Nyt meni jotakin pieleen!";
+let oikein = "Oikein!";
+let syote = "Syötteesi ei ole numeerisessa muodossa!";
+
 /**
  * Calculates the gcd of two numbers
  * @param {number} a
@@ -77,7 +83,7 @@ function fracQuot(a,b,c,d) {
  * @param {string} vast user input
  * @return {Array[string]} input split into array
  */
-function formatAns(vast) {
+function formatFracAns(vast) {
     let temp = vast;
     if (temp.includes("=")){
         temp = temp.substring(1);
@@ -105,25 +111,25 @@ function fracFeedback(vastArr, oikArr){
     
 
     if (isNaN(tempArr[0]) || isNaN(tempArr[1])){
-        return "Syötteesi ei ole numeerisessa muodossa!";
+        return syote;
     }
 
     let gcdAns = gcd(tempArr[0], tempArr[1]);
     
     if (tempArr[0] == oikArr[0] && tempArr[1] == oikArr[1]){
-        return "Oikein!";
+        return oikein;
     } else if (gcdAns > 1 ) {
         if (oikArr[1] == 1 && tempArr[1]/gcdAns != 1) {
-            return "Nyt meni jotakin pieleen!";
+            return virhe;
         }
         //if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0 ) {
         //    return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
         //}
         if  (tempArr[0]/ gcdAns == oikArr[0] && tempArr[1]/gcdAns == oikArr[1] ) {
-            return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
+            return sievennys;
         }  
     } 
-    return "Nyt meni jotakin pieleen!";
+    return virhe;
 }
 
 /**
@@ -151,6 +157,19 @@ function truncate(num, decimals) {
 /**
  * 
  *
+ * @param {number} v1 
+ * @param {number} v2 
+ * @param {number} epsilon 
+ * @return 
+ */
+function approxEq(v1, v2, epsilon = 0.0001) {
+    return Math.abs(v1 - v2) < epsilon;
+  };
+
+
+/**
+ * 
+ *
  * @param {string} a 1st dec number
  * @param {string} b 2nd dec number
  * @param {string} ans what the user entered
@@ -162,19 +181,17 @@ function decSumFeedback(a,b,ans){
     }
     let pa = parseFloat(a.replace(',','.')), pb = parseFloat(b.replace(',','.')), pans = parseFloat(temp.replace(',','.'));
     if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-        return "Syötteesi ei ole numeerisessa muodossa!";
+        return syote;
     }
     
     let sum = pa + pb;
-    let truncSum = truncate(sum, Math.min(a.length, b.length))
+        // TODO: approximately equal, since dealing with floats. Truncating does not work    
 
-    
-
-    if (truncSum == pans) {
-        return "Oikein!";
+    if (approxEq(sum, pans)) {
+        return oikein;
     }
 
-    return "Nyt meni jotakin pieleen!";
+    return virhe;
 }
 
 /**
@@ -188,6 +205,30 @@ function decProd(a,b,ans){
     
 }
 
+
+/**
+ * Replaces all the ocurrences of oldChar with newChar
+ *
+ * @param {string} string 
+ * @param {string} oldChar 
+ * @param {string} newChar 
+ */
+function stringReplace(string, oldChar, newChar){
+    if (!string.includes(oldChar)) {
+        return string;
+    }
+    newString = "";
+    for (i = 0; i < string.length; i++){
+        char = string.charAt(i)
+        if (char != oldChar){
+            newString = newString + char;
+        } else {
+            newString = newString + newChar;
+        }
+    }
+    return newString;
+}
+
 // ------------------ Variables END -----------------------------------
 
 module.exports = {
@@ -195,12 +236,17 @@ module.exports = {
     fracSum,
     fracProd,
     fracQuot,
-    formatAns,
+    formatFracAns,
     fracFeedback,
     round,
     truncate,
     decSumFeedback,
-    decProd
+    decProd,
+    stringReplace,
+    sievennys,
+    virhe,
+    oikein,
+    syote
 };
 
-console.log(decSumFeedback('-0.11', '0.23', '0.12'))
+console.log(decSumFeedback('0.705', '0.365', '=1,070'))

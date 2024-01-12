@@ -161,4 +161,8 @@ describe("decSumFeedback", () => {
     expect(decSumFeedback('-0.11', '0.23', '0.12')).toBe("Oikein!");
   });
 
+  test('0.105 + 0.365 to be 0.470', () => {
+    expect(decSumFeedback('0.105', '0.365', '=0,470')).toBe("Oikein!");
+  });
+
 });

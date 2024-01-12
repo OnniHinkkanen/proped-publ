@@ -188,6 +188,21 @@ function decProd(a,b,ans){
     
 }
 
+
+/**
+ * Replaces all the ocurrences of oldChar with newChar
+ *
+ * @param {string} string 
+ * @param {string} oldChar 
+ * @param {string} newChar 
+ */
+function stringReplace(string, oldChar, newChar){
+    if (!string.includes(oldChar)) {
+        return string;
+    }
+
+}
+
 // ------------------ Variables END -----------------------------------
 
 module.exports = {
@@ -200,7 +215,8 @@ module.exports = {
     round,
     truncate,
     decSumFeedback,
-    decProd
+    decProd,
+    stringReplace
 };
 
 console.log(decSumFeedback('-0.11', '0.23', '0.12'))

@@ -84,7 +84,7 @@ function fracQuot(a,b,c,d) {
  * @return {Array[string]} input split into array
  */
 function formatFracAns(vast) {
-    let temp = vast.toString();
+    let temp = vast;
     if (temp.includes("=")){
         temp = temp.substring(1);
     }
@@ -97,6 +97,35 @@ function formatFracAns(vast) {
     //console.log(arr[0]);
     //console.log(arr[1]);
     return arr;
+}
+
+/**
+ * 
+ *
+ * @param {string} a 1st dec number
+ * @param {string} b 2nd dec number
+ * @param {string} ans what the user entered
+ */
+function decSumFeedback(a,b,ans){
+    let temp = ans;
+    if (temp.includes("=")){
+        temp = temp.substring(1);
+    }
+    let pa = parseFloat(stringReplace(a.toString(),',','.')), 
+    pb = parseFloat(stringReplace(b.toString(),',','.')), 
+    pans = parseFloat(stringReplace(temp.toString(),',','.'));
+    if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
+        return syote;
+    }
+    
+    let sum = pa + pb;
+        // TODO: approximately equal, since dealing with floats. Truncating does not work    
+
+    if (approxEq(sum, pans)) {
+        return oikein;
+    }
+
+    return virhe;
 }
 
 /**
@@ -167,32 +196,7 @@ function approxEq(v1, v2, epsilon = 0.0001) {
   };
 
 
-/**
- * 
- *
- * @param {string} a 1st dec number
- * @param {string} b 2nd dec number
- * @param {string} ans what the user entered
- */
-function decSumFeedback(a,b,ans){
-    let temp = ans.toString();
-    if (temp.includes("=")){
-        temp = temp.substring(1);
-    }
-    let pa = parseFloat(stringReplace(a,',','.')), pb = parseFloat(stringReplace(b,',','.')), pans = parseFloat(stringReplace(temp,',','.'));
-    if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-        return syote;
-    }
-    
-    let sum = pa + pb;
-        // TODO: approximately equal, since dealing with floats. Truncating does not work    
 
-    if (approxEq(sum, pans)) {
-        return oikein;
-    }
-
-    return virhe;
-}
 
 /**
  * 

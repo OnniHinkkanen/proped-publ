@@ -309,7 +309,6 @@ function olddecSumFeedback(a,b,ans){
     }
     
     let sum = pa + pb;
-        // TODO: approximately equal, since dealing with floats. Truncating does not work    
 
     if (approxEq(sum, pans)) {
         return oikein;

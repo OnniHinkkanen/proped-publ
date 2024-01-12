@@ -84,7 +84,7 @@ function fracQuot(a,b,c,d) {
  * @return {Array[string]} input split into array
  */
 function formatFracAns(vast) {
-    let temp = vast;
+    let temp = vast.toString();
     if (temp.includes("=")){
         temp = temp.substring(1);
     }
@@ -175,7 +175,7 @@ function approxEq(v1, v2, epsilon = 0.0001) {
  * @param {string} ans what the user entered
  */
 function decSumFeedback(a,b,ans){
-    let temp = ans;
+    let temp = ans.toString();
     if (temp.includes("=")){
         temp = temp.substring(1);
     }

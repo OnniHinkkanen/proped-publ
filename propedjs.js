@@ -17,9 +17,9 @@ function gcd(a, b) {
     b = Math.abs(b);
 
     while (b !== 0 && b !== NaN) {
-        let temp = b;
+        let tempAns = b;
         b = a % b;
-        a = temp;
+        a = tempAns;
     }
     return a;
 }
@@ -84,15 +84,15 @@ function fracQuot(a,b,c,d) {
  * @return {Array[string]} input split into array
  */
 function formatFracAns(vast) {
-    let temp = vast;
-    if (temp.includes("=")){
-        temp = temp.substring(1);
+    let tempAns = vast;
+    if (tempAns.includes("=")){
+        tempAns = tempAns.substring(1);
     }
-    if (!temp.includes("/")){
+    if (!tempAns.includes("/")){
         //console.log("Ei murtoluku!")
-        return [temp, '1'];
+        return [tempAns, '1'];
     }
-    const arr = temp.split("/");
+    const arr = tempAns.split("/");
 
     //console.log(arr[0]);
     //console.log(arr[1]);
@@ -107,13 +107,16 @@ function formatFracAns(vast) {
  * @param {string} ans what the user entered
  */
 function decSumFeedback(a,b,ans){
-    let temp = ans;
-    if (temp.includes("=")){
-        temp = temp.substring(1);
+    let tempAns = ans;
+    let tempa = a;
+    let tempb = b;
+    
+    if (tempAns.includes("=")){
+        tempAns = tempAns.substring(1);
     }
-    let pa = parseFloat(stringReplace(a.toString(),',','.')), 
-    pb = parseFloat(stringReplace(b.toString(),',','.')), 
-    pans = parseFloat(stringReplace(temp.toString(),',','.'));
+    let pa = parseFloat(tempa.replace(',','.')), 
+    pb = parseFloat(tempb.replace(',','.')), 
+    pans = parseFloat(tempAns.replace(',','.'));
     if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
         return syote;
     }
@@ -136,25 +139,25 @@ function decSumFeedback(a,b,ans){
  * @return {string} feedback to be printed
  */
 function fracFeedback(vastArr, oikArr){
-    let tempArr = [parseInt(vastArr[0]), parseInt(vastArr[1])]
+    let tempAnsArr = [parseInt(vastArr[0]), parseInt(vastArr[1])]
     
 
-    if (isNaN(tempArr[0]) || isNaN(tempArr[1])){
+    if (isNaN(tempAnsArr[0]) || isNaN(tempAnsArr[1])){
         return syote;
     }
 
-    let gcdAns = gcd(tempArr[0], tempArr[1]);
+    let gcdAns = gcd(tempAnsArr[0], tempAnsArr[1]);
     
-    if (tempArr[0] == oikArr[0] && tempArr[1] == oikArr[1]){
+    if (tempAnsArr[0] == oikArr[0] && tempAnsArr[1] == oikArr[1]){
         return oikein;
     } else if (gcdAns > 1 ) {
-        if (oikArr[1] == 1 && tempArr[1]/gcdAns != 1) {
+        if (oikArr[1] == 1 && tempAnsArr[1]/gcdAns != 1) {
             return virhe;
         }
-        //if  (tempArr[0]%oikArr[0] == 0 && tempArr[1]%oikArr[1] == 0 ) {
+        //if  (tempAnsArr[0]%oikArr[0] == 0 && tempAnsArr[1]%oikArr[1] == 0 ) {
         //    return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
         //}
-        if  (tempArr[0]/ gcdAns == oikArr[0] && tempArr[1]/gcdAns == oikArr[1] ) {
+        if  (tempAnsArr[0]/ gcdAns == oikArr[0] && tempAnsArr[1]/gcdAns == oikArr[1] ) {
             return sievennys;
         }  
     } 

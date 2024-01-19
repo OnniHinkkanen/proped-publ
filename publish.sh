@@ -9,7 +9,7 @@ fi
 
 echo $msg
 
-#pkill code
+pkill code
 
 git add --all
 git commit -m "$msg"

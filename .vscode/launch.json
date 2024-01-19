@@ -8,7 +8,12 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+            "windows": {
+                "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe"
+            },
+            "linux": {
+                "runtimeExecutable": "/usr/bin/node"
+            },
             "skipFiles": [
                 "<node_internals>/**"
             ],

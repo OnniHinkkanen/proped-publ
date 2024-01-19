@@ -15,13 +15,20 @@ git add --all
 git commit -m "$msg"
 git push
 
-#timeout /t 3
-#git add --all
-#timeout /t 1 
-#git commit -m "%msg%"
-#timeout /t 1 
-#git push
-#
+git checkout public
+git checkout main -- propedjs.js
+git checkout main -- publish.sh
+git checkout main -- publish.bat
+
+git add --all
+git commit -m "$msg"
+git push
+
+git checkout main
+
+code
+
+
 #timeout /t 3 
 #git checkout public
 #timeout /t 1 

@@ -5,7 +5,6 @@ let virhe = "Nyt meni jotakin pieleen!";
 let oikein = "Oikein!";
 let syoteVirhe = "Syötteesi ei ole numeerisessa muodossa!";
 
-
 /**
  * Calculates the gcd of two numbers
  * @param {number} a
@@ -232,6 +231,11 @@ function truncate(num, decimals) {
 function approxEq(v1, v2, epsilon = 0.0001) {
     return Math.abs(v1 - v2) < epsilon;
   };
+
+
+
+
+
 
 
 /**

@@ -261,6 +261,59 @@ function stringReplace(string, oldChar, newChar){
     return newString;
 }
 
+/**
+ * Evaluates if the user answer is correct for product of two similar powers
+ *
+ * @param {number} a 1st exponend
+ * @param {number} b 2nd exponent
+ * @param {string} vari variable
+ * @param {string} ans what the user answered
+ */
+function prodofpowers(a, b, vari, ans){
+    return power(a,b,vari, ans, f =(x,y) => x+y)
+}
+
+/**
+ * Evaluates if the user answer is correct for power of power
+ *
+ * @param {number} a 1st exponend
+ * @param {number} b 2nd exponent
+ * @param {string} vari variable
+ * @param {string} ans what the user answered
+ */
+function powerofpower(a, b, vari, ans){
+    return power(a,b,vari, ans, f =(x,y) => x*y)
+}
+
+
+
+function power(a,b,vari,ans, f){
+    let tempAns = ans.replace('=', '').replace('(','').replace(')','');
+    if (!tempAns.includes(vari)){
+        if (f(a,b) == 0 && parseInt(tempAns) == 1){
+            return oikein;
+        }
+        return virhe;
+    }
+    let arr = tempAns.split('^');
+    if (parseInt(arr[1]) == f(a,b)){
+        return oikein;
+    }
+    return virhe;
+}
+
+/**
+ * Evaluates if the user answer is correct for quotinent of two similar powers
+ *
+ * @param {number} a 1st exponend
+ * @param {number} b 2nd exponent
+ * @param {string} vari variable
+ * @param {string} ans what the user answered
+ */
+function quotofpowers(a, b, vari, ans){
+    return power(a,b,vari, ans, f =(x,y) => x - y)
+}
+
 // ------------------ Variables END -----------------------------------
 
 module.exports = {
@@ -275,83 +328,19 @@ module.exports = {
     decSumFeedback,
     decProdFeedback,
     stringReplace,
+    power,
+    prodofpowers,
+    quotofpowers,
+    powerofpower,
     sievennys,
     virhe,
     oikein,
     syoteVirhe
 };
 
+console.log(quotofpowers(2,2,'a','=1'))
+
 console.log(decFeedback('0.705', '0.365', '=1,070', f = (x,y) => x + y));
 console.log(decFeedback('0.245', '0.483', '0,118335', f= (x,y) => x*y));
 
 // ================================================= OLD JUNK =====================================================
-function olddecSumFeedback(a,b,ans){
-    let tempAns = String(ans),
-        pa = a,
-        pb = b;
-
-    if (typeof a != 'number'){
-        pa = parseFloat(a);
-    }
-
-    if (typeof b != 'number'){
-        pb = parseFloat(b);
-    }
-
-    if (tempAns.includes("=")){
-        tempAns = tempAns.substring(1);
-    }
-
-    pans = parseFloat(tempAns.replace(',','.'));
-
-    if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-        return syoteVirhe;
-    }
-    
-    let sum = pa + pb;
-
-    if (approxEq(sum, pans)) {
-        return oikein;
-    }
-
-    return virhe;
-}
-
-/**
- * 
- *
- * @param {number} a 1st dec number
- * @param {number} b 2nd dec number
- * @param {string} ans what the user entered
- */
-function olddecProdFeedback(a,b,ans){
-    let tempAns = String(ans),
-    pa = a,
-    pb = b;
-
-if (typeof a != 'number'){
-    pa = parseFloat(a);
-}
-
-if (typeof b != 'number'){
-    pb = parseFloat(b);
-}
-
-if (tempAns.includes("=")){
-    tempAns = tempAns.substring(1);
-}
-
-pans = parseFloat(tempAns.replace(',','.'));
-
-if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-    return syoteVirhe;
-}
-
-let prod = pa*pb;
-
-if (approxEq(prod, pans)) {
-    return oikein;
-}
-
-return virhe;
-}

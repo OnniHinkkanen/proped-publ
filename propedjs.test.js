@@ -7,6 +7,10 @@ const { gcd,
   decSumFeedback, 
   decProdFeedback,
   stringReplace,
+  power,
+  prodofpowers,
+  quotofpowers,
+  powerofpower,
   sievennys,
   virhe,
   oikein,
@@ -231,5 +235,98 @@ describe("stringReplace", () => {
 
   test('0,47,0 should be 0.47.0', () => {
     expect(stringReplace('0,47,0',',','.')).toBe('0.47.0');
+  });
+});
+
+describe("prodofpower", () => {
+  
+  test('a^2* a^3 should be a^5', () => {
+    expect(prodofpowers(2,3,'a','=a^5')).toBe(oikein);
+  });
+
+  test('answer should include the variable', () => {
+    expect(prodofpowers(2,3,'a','=^5')).toBe(virhe);
+  });
+
+  test('answer should include the correct variable', () => {
+    expect(prodofpowers(2,3,'b','=^5')).toBe(virhe);
+  });
+
+  test('answer should have a carot', () => {
+    expect(prodofpowers(2,3,'a','=5')).toBe(virhe);
+  });
+ 
+  test('a^2* a^7 should be a^9', () => {
+    expect(prodofpowers(2,7,'a','=a^9')).toBe(oikein);
+  });
+});
+
+describe("quotofpower", () => {
+  
+  test('a^2 / a^3 should be a^-1', () => {
+    expect(quotofpowers(2,3,'a','=a^-1')).toBe(oikein);
+  });
+
+  test('answer should include the variable', () => {
+    expect(prodofpowers(2,3,'a','=^5')).toBe(virhe);
+  });
+
+  test('answer should include the correct variable', () => {
+    expect(prodofpowers(2,3,'b','=^5')).toBe(virhe);
+  });
+
+  test('answer should have a carot', () => {
+    expect(prodofpowers(2,3,'a','=5')).toBe(virhe);
+  });
+
+  test('a^2 / a^7 should be a^-5', () => {
+    expect(quotofpowers(2,7,'a','=a^-5')).toBe(oikein);
+  });
+
+  test('a^2 / a^2 should be a^0', () => {
+    expect(quotofpowers(2,2,'a','=a^0')).toBe(oikein);
+  });
+
+  test('a^2 / a^2 should be 1', () => {
+    expect(quotofpowers(2,2,'a','=1')).toBe(oikein);
+  });
+
+  test('a^7 / a^2 should be a^5', () => {
+    expect(quotofpowers(7,2,'a','=a^5')).toBe(oikein);
+  });
+});
+
+describe("powerofpower", () => {
+  
+  test('(a^2)^3 should be a^6', () => {
+    expect(powerofpower(2,3,'a','=a^6')).toBe(oikein);
+  });
+
+  test('answer should include the variable', () => {
+    expect(powerofpower(2,3,'a','=^5')).toBe(virhe);
+  });
+
+  test('answer should include the correct variable', () => {
+    expect(powerofpower(2,3,'b','=^5')).toBe(virhe);
+  });
+
+  test('answer should have a carot', () => {
+    expect(powerofpower(2,3,'a','=5')).toBe(virhe);
+  });
+
+  test('(a^2)^7 should be a^14', () => {
+    expect(powerofpower(2,7,'a','=a^14')).toBe(oikein);
+  });
+
+  test('a^2 ^0 should be a^0', () => {
+    expect(powerofpower(2,0,'a','=a^0')).toBe(oikein);
+  });
+
+  test('a^2 ^0 should be 1', () => {
+    expect(powerofpower(2,0,'a','=1')).toBe(oikein);
+  });
+
+  test('a^7 ^2 should be a^14', () => {
+    expect(powerofpower(7,2,'a','=a^14')).toBe(oikein);
   });
 });

@@ -11,6 +11,7 @@ const { gcd,
   prodofpowers,
   quotofpowers,
   powerofpower,
+  bintimesbin,
   sievennys,
   virhe,
   oikein,
@@ -329,4 +330,12 @@ describe("powerofpower", () => {
   test('a^7 ^2 should be a^14', () => {
     expect(powerofpower(7,2,'a','=a^14')).toBe(oikein);
   });
+});
+
+describe("bintimesbin", () => {
+  
+  test('(2x + 1)(3x +4) should be 6x^2 +11x + 4', () => {
+    expect(bintimesbin('(2x + 1)(3x +4)')).toBe('6x^2 +11x + 4');
+  });
+
 });

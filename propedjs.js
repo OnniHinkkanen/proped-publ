@@ -314,6 +314,41 @@ function quotofpowers(a, b, vari, ans){
     return power(a,b,vari, ans, f =(x,y) => x - y)
 }
 
+function bintimesbin(str, vari){
+    
+    // split into binomials
+    let binarray = str.split(')(');
+
+    // REMOVE THE brackets
+    for (i = 0; i < binarray.length; i++){
+        binarray[i] = binarray[i].replace('(','').replace(')','');
+    }
+    let binone = [], bintwo = [];
+
+    // Separate the two monomials
+    binone = (binarray[0].includes('+')) ? binarray[0].split('+') : [binarray[0].substring(0, binarray[0].indexOf('-')),binarray[0].slice(binarray[0].indexOf('-'))];
+    bintwo = (binarray[1].includes('+')) ? binarray[1].split('+') : [binarray[1].substring(0, binarray[1].indexOf('-')),binarray[1].slice(binarray[1].indexOf('-'))];
+    
+    let a=0, b=0,c=0,d=0;
+    for(i = 0; i < binone.length; i++){
+        if(binone[i].includes(vari)){
+            a = binone[i].substring(0,binone[i].indexOf(vari));
+        } else {
+            b =binone[i];
+        }
+        if(bintwo[i].includes(vari)){
+            c = bintwo[i].substring(0,bintwo[i].indexOf(vari));
+        } else {
+            d = bintwo[i];
+        }
+
+
+    }
+
+    console.log('a: '+ a + " b: " + b +" c: "+ c + " d: " + d)
+
+}
+
 // ------------------ Variables END -----------------------------------
 
 module.exports = {
@@ -332,13 +367,14 @@ module.exports = {
     prodofpowers,
     quotofpowers,
     powerofpower,
+    bintimesbin,
     sievennys,
     virhe,
     oikein,
     syoteVirhe
 };
 
-console.log(quotofpowers(2,2,'a','=1'))
+console.log(bintimesbin('(2x - 1)(3x +4)','x'))
 
 console.log(decFeedback('0.705', '0.365', '=1,070', f = (x,y) => x + y));
 console.log(decFeedback('0.245', '0.483', '0,118335', f= (x,y) => x*y));

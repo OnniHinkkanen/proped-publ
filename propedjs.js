@@ -349,6 +349,29 @@ function bintimesbin(str, vari){
 
 }
 
+function split_into_arrays(str){
+    //matches ')(' and splits the string into array
+    const regex = /(?<=\))\(/;
+    let arr = str.split(regex);
+
+    //splits the array further into subarrays for + and -
+    for (i = 0; i < arr.length; i++){
+        arr[i] = arr[i].replace(/[\(\)]/g, '')
+        let temparr = arr[i].split(/([\+\-]\d*)/g)
+        arr[i] = temparr.filter(n => n)
+    }
+    //array of arrays of monomials
+    return arr;
+}
+
+function binprod(arr){
+
+}
+
+function monotimes(a,b) {
+
+}
+
 // ------------------ Variables END -----------------------------------
 
 module.exports = {
@@ -373,10 +396,13 @@ module.exports = {
     oikein,
     syoteVirhe
 };
+let polynomial = '(3x-2)(x+1)';
+let arr = split_into_arrays(polynomial);
+console.log(arr[0] + " " + arr[1] + " " + arr[2])
 
-console.log(bintimesbin('(2x - 1)(3x +4)','x'))
+//console.log(bintimesbin('(2x - 1)(3x +4)','x'))
 
-console.log(decFeedback('0.705', '0.365', '=1,070', f = (x,y) => x + y));
-console.log(decFeedback('0.245', '0.483', '0,118335', f= (x,y) => x*y));
+//console.log(decFeedback('0.705', '0.365', '=1,070', f = (x,y) => x + y));
+//console.log(decFeedback('0.245', '0.483', '0,118335', f= (x,y) => x*y));
 
 // ================================================= OLD JUNK =====================================================

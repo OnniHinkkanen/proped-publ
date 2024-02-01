@@ -426,10 +426,8 @@ class Polynomial{
     }
 
 
-    }
-
     plus(a){
-
+        //
     }
 }
 

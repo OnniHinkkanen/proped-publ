@@ -372,6 +372,17 @@ function monotimes(a,b) {
 
 }
 
+// class poly{
+//
+//private string variable;
+//private List<Int> coefficients;
+//
+//public static poly times(poly a){};
+//oublic static poly plusminus(poly a){};
+//
+//}
+
+
 // ------------------ Variables END -----------------------------------
 
 module.exports = {

@@ -382,8 +382,19 @@ function monotimes(a,b) {
 //
 //}
 
+class Polynomial{
+    constructor(variable, coefficients){
+        this.variable = variable;
+        this.coefficients = coefficients;
+    }
+}
+
 
 // ------------------ Variables END -----------------------------------
+
+//let polytest = new Polynomial('a', [1,2,3]);
+//console.log(polytest.coefficients);
+
 
 module.exports = {
     gcd,

@@ -407,6 +407,24 @@ class Polynomial{
      * @memberof Polynomial
      */
     times(a){
+        p = this.coefficients;
+        q = a.coefficients;
+        let n = this.coefficients.length;
+        let m = a.coefficients.length;
+        let product = [];
+        
+        for (k = 0; k < n + m; k++){
+            let sum = 0;
+            for (l = 0; l <= k; l++){
+                sum += p[l]*q[k - l]
+            }
+            product.push(sum);
+        }
+
+        return product;
+
+    }
+
 
     }
 

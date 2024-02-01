@@ -387,6 +387,32 @@ class Polynomial{
         this.variable = variable;
         this.coefficients = coefficients;
     }
+
+
+    /**
+     * Let 
+     * p(x) = p_n x^n + ... + p_1 x + p_0 and
+     * q(x) = q_m x^m + ... + q_1 x + q_0.
+     * 
+     * Now
+     * p(x)q(x) = \sum_{k=0}^{n+m} \sum_{l = 0}^k p_l q_{k-l} x^k
+     *          = \sum_{k=0}^{n+m} x^k \sum_{l = 0}^k p_l q_{k-l}.
+     *
+     * Hence we need to calculate 
+     * 
+     * \sum_{l = 0}^k p_l q_{k-l}
+     * 
+     * for k \in \{0, 1, ... , n + m\} to attain the product coefficients.
+     * @param {Polynomial} a the other polynomial
+     * @memberof Polynomial
+     */
+    times(a){
+
+    }
+
+    plus(a){
+
+    }
 }
 
 

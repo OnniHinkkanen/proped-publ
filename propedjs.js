@@ -311,16 +311,22 @@ function quotofpowers(a, b, vari, ans){
 function split_into_arrays(str){
     //matches ')(' and splits the string into array
     const regex = /(?<=\))\(/;
-    let arr = str.split(regex);
+
+    //Remove all white space chars and asterixes and split with the regex
+    let arr = str.replace(/[\s \*]+/g, '').split(regex);
 
     //splits the array further into subarrays for + and -
     for (let i = 0; i < arr.length; i++){
         arr[i] = arr[i].replace(/[\(\)]/g, '')
-        let temparr = arr[i].split(/([\+\-]\d*)/g)
+        let temparr = arr[i].split(/([\+\-]\d*[a-z]*)/g) //[\+\-]\d*
         arr[i] = temparr.filter(n => n)
     }
     //array of arrays of monomials
     return arr;
+}
+
+function sort_by_power(array) {
+
 }
 
 class Polynomial{
@@ -400,7 +406,8 @@ class Polynomial{
     }
 }
 
-
+let a = split_into_arrays('(3*x^2 + 2x - 1)(3x +4)')
+console.log(a[0]+ " " + a[1])
 
 
 // ------------------ Variables END -----------------------------------

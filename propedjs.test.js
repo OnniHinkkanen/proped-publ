@@ -11,7 +11,6 @@ const { gcd,
   prodofpowers,
   quotofpowers,
   powerofpower,
-  bintimesbin,
   Polynomial,
   sievennys,
   virhe,
@@ -348,7 +347,14 @@ describe("Polynomial.times", () => {
   });
 
   test('(2x^3 -4x + 2)(x^7 + x^2 - 1) should be -2 + 4 x + 2 x^2 - 6 x^3 + 2 x^5 + 2 x^7 - 4 x^8 + 2 x^10', () => {
-    expect((new Polynomial('x', [2,-4,0,2])).times(new Polynomial('x', [-1,0,1,0,0,0,0,1]))).toStrictEqual([-2,4,2,-6,0,2,0,2,-4,0,2]);
+    expect(new Polynomial('x', [2,-4,0,2]).times(new Polynomial('x', [-1,0,1,0,0,0,0,1]))).toStrictEqual([-2,4,2,-6,0,2,0,2,-4,0,2]);
+  });
+
+  test('Throws on different variables', () => {
+    
+    expect(() => {
+      new Polynomial('x', [-2,2]).times(new Polynomial('y', [1,1]))
+    }).toThrow();
   });
 
 });

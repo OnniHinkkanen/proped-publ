@@ -232,12 +232,6 @@ function approxEq(v1, v2, epsilon = 0.0001) {
     return Math.abs(v1 - v2) < epsilon;
   };
 
-
-
-
-
-
-
 /**
  * Replaces all the ocurrences of oldChar with newChar
  *
@@ -314,41 +308,6 @@ function quotofpowers(a, b, vari, ans){
     return power(a,b,vari, ans, f =(x,y) => x - y)
 }
 
-function bintimesbin(str, vari){
-    
-    // split into binomials
-    let binarray = str.split(')(');
-
-    // REMOVE THE brackets
-    for (let i = 0; i < binarray.length; i++){
-        binarray[i] = binarray[i].replace('(','').replace(')','');
-    }
-    let binone = [], bintwo = [];
-
-    // Separate the two monomials
-    binone = (binarray[0].includes('+')) ? binarray[0].split('+') : [binarray[0].substring(0, binarray[0].indexOf('-')),binarray[0].slice(binarray[0].indexOf('-'))];
-    bintwo = (binarray[1].includes('+')) ? binarray[1].split('+') : [binarray[1].substring(0, binarray[1].indexOf('-')),binarray[1].slice(binarray[1].indexOf('-'))];
-    
-    let a=0, b=0,c=0,d=0;
-    for(let i = 0; i < binone.length; i++){
-        if(binone[i].includes(vari)){
-            a = binone[i].substring(0,binone[i].indexOf(vari));
-        } else {
-            b =binone[i];
-        }
-        if(bintwo[i].includes(vari)){
-            c = bintwo[i].substring(0,bintwo[i].indexOf(vari));
-        } else {
-            d = bintwo[i];
-        }
-
-
-    }
-
-    console.log('a: '+ a + " b: " + b +" c: "+ c + " d: " + d)
-
-}
-
 function split_into_arrays(str){
     //matches ')(' and splits the string into array
     const regex = /(?<=\))\(/;
@@ -363,24 +322,6 @@ function split_into_arrays(str){
     //array of arrays of monomials
     return arr;
 }
-
-function binprod(arr){
-
-}
-
-function monotimes(a,b) {
-
-}
-
-// class poly{
-//
-//private string variable;
-//private List<Int> coefficients;
-//
-//public static poly times(poly a){};
-//oublic static poly plusminus(poly a){};
-//
-//}
 
 class Polynomial{
     constructor(variable, coefficients){
@@ -459,16 +400,20 @@ class Polynomial{
     }
 }
 
-let a = new Polynomial('x', [-2,1])
-let b = new Polynomial('y', [3,1])
-console.log(a.times(b))
+
 
 
 // ------------------ Variables END -----------------------------------
 
+
+
+//let a = new Polynomial('x', [-2,1])
+//let b = new Polynomial('y', [3,1])
+//console.log(a.times(b))
+
+
 //let polytest = new Polynomial('a', [1,2,3]);
 //console.log(polytest.coefficients);
-
 
 module.exports = {
     gcd,
@@ -486,16 +431,13 @@ module.exports = {
     prodofpowers,
     quotofpowers,
     powerofpower,
-    bintimesbin,
     sievennys,
     virhe,
     oikein,
     syoteVirhe,
     Polynomial,
 };
-let polynomial = '(3x-2)(x+1)';
-let arr = split_into_arrays(polynomial);
-console.log(arr[0] + " " + arr[1] + " " + arr[2])
+
 
 //console.log(bintimesbin('(2x - 1)(3x +4)','x'))
 

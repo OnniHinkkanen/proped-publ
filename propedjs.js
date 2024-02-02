@@ -249,8 +249,8 @@ function stringReplace(string, oldChar, newChar){
     if (!string.includes(oldChar)) {
         return string;
     }
-    newString = "";
-    for (i = 0; i < string.length; i++){
+    let newString = "";
+    for (let i = 0; i < string.length; i++){
         char = string.charAt(i)
         if (char != oldChar){
             newString = newString + char;
@@ -320,7 +320,7 @@ function bintimesbin(str, vari){
     let binarray = str.split(')(');
 
     // REMOVE THE brackets
-    for (i = 0; i < binarray.length; i++){
+    for (let i = 0; i < binarray.length; i++){
         binarray[i] = binarray[i].replace('(','').replace(')','');
     }
     let binone = [], bintwo = [];
@@ -330,7 +330,7 @@ function bintimesbin(str, vari){
     bintwo = (binarray[1].includes('+')) ? binarray[1].split('+') : [binarray[1].substring(0, binarray[1].indexOf('-')),binarray[1].slice(binarray[1].indexOf('-'))];
     
     let a=0, b=0,c=0,d=0;
-    for(i = 0; i < binone.length; i++){
+    for(let i = 0; i < binone.length; i++){
         if(binone[i].includes(vari)){
             a = binone[i].substring(0,binone[i].indexOf(vari));
         } else {
@@ -355,7 +355,7 @@ function split_into_arrays(str){
     let arr = str.split(regex);
 
     //splits the array further into subarrays for + and -
-    for (i = 0; i < arr.length; i++){
+    for (let i = 0; i < arr.length; i++){
         arr[i] = arr[i].replace(/[\(\)]/g, '')
         let temparr = arr[i].split(/([\+\-]\d*)/g)
         arr[i] = temparr.filter(n => n)
@@ -403,26 +403,54 @@ class Polynomial{
      * \sum_{l = 0}^k p_l q_{k-l}
      * 
      * for k \in \{0, 1, ... , n + m\} to attain the product coefficients.
+     * 
+     * This only works, if the polynomials are of teh same variable. If we have 
+     * 
+     * p(x) = p_0 + p_1 x + ... + p_n x^n and
+     * q(y) = q_0 + q_1 x + ... + q_m y^m
+     * 
+     * and want to calculate p(x)q(y), the coefficients would form the n x m matrix
+     * 
+     * p_0q_0   p_0q_1  ... p_0q_m
+     * p_1q_0   p_1q_1         :
+     *   :              ...    .
+     * p_nq_m   ...         p_nq_m
+     * 
+     * where the indices denote the power of the corresponding variable x and y, respectively.
+     * 
+     * This is yet to be implemented
+     * 
      * @param {Polynomial} a the other polynomial
      * @memberof Polynomial
      */
     times(a){
-        p = this.coefficients;
-        q = a.coefficients;
-        let n = this.coefficients.length;
-        let m = a.coefficients.length;
-        let product = [];
-        
-        for (k = 0; k < n + m; k++){
-            let sum = 0;
-            for (l = 0; l <= k; l++){
-                sum += p[l]*q[k - l]
+        if (this.variable == a.variable){
+            let p = this.coefficients;
+            let q = a.coefficients;
+            let n = this.coefficients.length - 1;
+            let m = a.coefficients.length - 1;
+            let product = [];
+            
+            // Construct the sums
+            for (let k = 0; k <= n + m; k++){
+                let sum = 0;
+                for (let l = 0; l <= k; l++){
+    
+                    // Check that the indexes are in range
+                    if (l <= n && k - l <= m){
+                        sum += p[l]*q[k - l]
+                    }
+                }
+                product.push(sum);
             }
-            product.push(sum);
+    
+            return product;
         }
-
-        return product;
-
+        else {
+            const e = new Error("Multi-variable product is yet to be implemented")
+            e.name = "NotImplementedError"
+            throw e;
+        }
     }
 
 
@@ -430,6 +458,10 @@ class Polynomial{
         //
     }
 }
+
+let a = new Polynomial('x', [-2,1])
+let b = new Polynomial('y', [3,1])
+console.log(a.times(b))
 
 
 // ------------------ Variables END -----------------------------------
@@ -458,7 +490,8 @@ module.exports = {
     sievennys,
     virhe,
     oikein,
-    syoteVirhe
+    syoteVirhe,
+    Polynomial,
 };
 let polynomial = '(3x-2)(x+1)';
 let arr = split_into_arrays(polynomial);

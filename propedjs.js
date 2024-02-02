@@ -402,22 +402,45 @@ class Polynomial{
 
 
     plus(a){
-        //
+        if (this.variable == a.variable){
+            let lb = Math.min(this.coefficients.length, a.coefficients.length);
+            let sum = []
+            for(let i = 0; i < lb; i++){
+                sum.push(this.coefficients[i] + a.coefficients[i])
+            }
+
+            if (this.coefficients.length > lb){
+                for (let i = lb; i < this.coefficients.length; i++){
+                    sum.push(this.coefficients[i])
+                }
+                return sum;
+            }else {
+                for (let i = lb; i < a.coefficients.length; i++){
+                    sum.push(a.coefficients[i])
+                }
+                return sum;
+            }
+    }
+}
+    minus(a){
+        return this.plus(new Polynomial(a.variable, a.coefficients.map((e) => -1*e)));
     }
 }
 
-let a = split_into_arrays('(3*x^2 + 2x - 1)(3x +4)')
-console.log(a[0]+ " " + a[1])
+
+//let a = split_into_arrays('(3*x^2 + 2x - 1)(3x +4)')
+//console.log(a[0]+ " " + a[1])
 
 
 // ------------------ Variables END -----------------------------------
 
 
 
-//let a = new Polynomial('x', [-2,1])
-//let b = new Polynomial('y', [3,1])
-//console.log(a.times(b))
-
+let a = new Polynomial('x', [-2,1])
+let b = new Polynomial('x', [3,2,5])
+console.log(a.times(b))
+console.log(a.plus(b))
+console.log(a.minus(b))
 
 //let polytest = new Polynomial('a', [1,2,3]);
 //console.log(polytest.coefficients);

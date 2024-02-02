@@ -309,16 +309,20 @@ function quotofpowers(a, b, vari, ans){
 }
 
 function split_into_arrays(str){
+
+
+    const better_regex = /\)\(|\)(?=\d|[a-zA-Z])|(?<=\d|[a-zA-Z])\(/
+
     //matches ')(' and splits the string into array
     const regex = /(?<=\))\(/;
 
     //Remove all white space chars and asterixes and split with the regex
-    let arr = str.replace(/[\s \*]+/g, '').split(regex);
+    let arr = str.replace(/[\s \*]+/g, '').split(better_regex);
 
     //splits the array further into subarrays for + and -
     for (let i = 0; i < arr.length; i++){
         arr[i] = arr[i].replace(/[\(\)]/g, '')
-        let temparr = arr[i].split(/([\+\-]\d*[a-z]*)/g) //[\+\-]\d*
+        let temparr = arr[i].split(/([\+\-]\d*[a-zA-Z]*)/g) //[\+\-]\d*
         arr[i] = temparr.filter(n => n)
     }
     //array of arrays of monomials
@@ -435,12 +439,13 @@ class Polynomial{
 // ------------------ Variables END -----------------------------------
 
 
+console.log(split_into_arrays("(2x-3)(3x-2)"))
 
-let a = new Polynomial('x', [-2,1])
-let b = new Polynomial('x', [3,2,5])
-console.log(a.times(b))
-console.log(a.plus(b))
-console.log(a.minus(b))
+//let a = new Polynomial('x', [-2,1])
+//let b = new Polynomial('x', [3,2,5])
+//console.log(a.times(b))
+//console.log(a.plus(b))
+//console.log(a.minus(b))
 
 //let polytest = new Polynomial('a', [1,2,3]);
 //console.log(polytest.coefficients);

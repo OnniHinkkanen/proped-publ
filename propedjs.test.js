@@ -350,6 +350,10 @@ describe("Polynomial.times", () => {
     expect(new Polynomial('x', [2,-4,0,2]).times(new Polynomial('x', [-1,0,1,0,0,0,0,1]))).toStrictEqual([-2,4,2,-6,0,2,0,2,-4,0,2]);
   });
 
+  test('2x(3-x) should be -2x^2 + 6x', () => {
+    expect((new Polynomial('x', [0,2])).times(new Polynomial('x', [3,-1]))).toStrictEqual([0,6,-2]);
+  });
+
   test('Throws on different variables', () => {
     
     expect(() => {

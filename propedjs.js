@@ -117,7 +117,7 @@ function decSumFeedback(a,b,ans) {
  * @param {number/string} a 1st decimal number
  * @param {number/string} b 2nd decimal number
  * @param {string} ans user answer
- * @return feedback string
+ * @return {string} feedback string
  */
 function decProdFeedback(a,b,ans) {
     return decFeedback(a,b,ans, f = (x,y) => x*y);
@@ -238,6 +238,7 @@ function approxEq(v1, v2, epsilon = 0.0001) {
  * @param {string} string 
  * @param {string} oldChar 
  * @param {string} newChar 
+ * @returns {string} the new string
  */
 function stringReplace(string, oldChar, newChar){
     if (!string.includes(oldChar)) {
@@ -262,6 +263,7 @@ function stringReplace(string, oldChar, newChar){
  * @param {number} b 2nd exponent
  * @param {string} vari variable
  * @param {string} ans what the user answered
+ * @return {string} feedback for the student answer
  */
 function prodofpowers(a, b, vari, ans){
     return power(a,b,vari, ans, f =(x,y) => x+y)
@@ -274,6 +276,7 @@ function prodofpowers(a, b, vari, ans){
  * @param {number} b 2nd exponent
  * @param {string} vari variable
  * @param {string} ans what the user answered
+ * @return {string} feedback for the student answer 
  */
 function powerofpower(a, b, vari, ans){
     return power(a,b,vari, ans, f =(x,y) => x*y)
@@ -281,6 +284,16 @@ function powerofpower(a, b, vari, ans){
 
 
 
+/**
+ *A function for evaluating the responses of students for exponentiation rules. 
+ *
+ * @param {*} a 1st exponent
+ * @param {*} b 2nd exponent
+ * @param {*} vari variable; base number
+ * @param {*} ans what the student answered
+ * @param {*} f function to evaluate the exponent; e.g. a^5*a^3 would need f= (x,y) => x + y; to obtain the correct answer a^8.
+ * @return {string} feedback for the student answer 
+ */
 function power(a,b,vari,ans, f){
     let tempAns = ans.replace('=', '').replace('(','').replace(')','');
     if (!tempAns.includes(vari)){
@@ -332,7 +345,13 @@ function sort_by_power(array) {
 
 }
 
-//TODO: should the methods return a Polynomial?
+
+/**
+ *A class for handling polynomial products ads summation. Currently only works with single-variable polynomials, 
+ *but extending this to multi-variable polynomials should not be hard at all.
+ *
+ * @class Polynomial
+ */
 class Polynomial{
     constructor(variable, coefficients){
         this.variable = variable;
@@ -356,7 +375,7 @@ class Polynomial{
      * 
      * for k \in \{0, 1, ... , n + m\} to attain the product coefficients.
      * 
-     * This only works, if the polynomials are of teh same variable. If we have 
+     * This only works, if the polynomials are of the same variable. If we have 
      * 
      * p(x) = p_0 + p_1 x + ... + p_n x^n and
      * q(y) = q_0 + q_1 x + ... + q_m y^m
@@ -372,7 +391,8 @@ class Polynomial{
      * 
      * This is yet to be implemented
      * 
-     * @param {Polynomial} a the other polynomial
+     * @param {Polynomial} a the other polynomial to be multiplied
+     * @returns {Polynomial} the polynomial product as a member of Polynomial
      * @memberof Polynomial
      */
     times(a){
@@ -406,6 +426,13 @@ class Polynomial{
     }
 
 
+    /**
+     * Addition for polynomials. Currently only works for polynomials of the same variable.
+     *
+     * @param {Polynomial} a the other polynomial
+     * @return {Polynomial} Resulting polynomial of the summation 
+     * @memberof Polynomial
+     */
     plus(a){
         if (this.variable == a.variable){
             let lb = Math.min(this.coefficients.length, a.coefficients.length);
@@ -431,18 +458,27 @@ class Polynomial{
             throw e;
         }
     }   
+
+
+    /**
+     *Polynomial substraction acquired by summation; p(x) + (-q(x)). 
+     * Currently only works for polynomials of the same variable.
+     *
+     * @param {Polynomial} a polynomial to be substracted i.e. q(x)
+     * @return {Polynomial} The resulting polynomial 
+     * @memberof Polynomial
+     */
     minus(a){
         return this.plus(new Polynomial(a.variable, a.coefficients.map((e) => -1*e)));
     }
 }
 
 
+// ------------------ Variables END -----------------------------------
+// The line above is due to TIM integration; everything below will not get exported to TIM.
+
 //let a = split_to_polynomials('(3*x^2 + 2x - 1)(3x +4)')
 //console.log(a[0]+ " " + a[1])
-
-
-// ------------------ Variables END -----------------------------------
-
 
 //console.log(split_to_polynomials("(2x-3)(3x-2)"))
 

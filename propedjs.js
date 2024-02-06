@@ -287,11 +287,11 @@ function powerofpower(a, b, vari, ans){
 /**
  *A function for evaluating the responses of students for exponentiation rules. 
  *
- * @param {*} a 1st exponent
- * @param {*} b 2nd exponent
- * @param {*} vari variable; base number
- * @param {*} ans what the student answered
- * @param {*} f function to evaluate the exponent; e.g. a^5*a^3 would need f= (x,y) => x + y; to obtain the correct answer a^8.
+ * @param {number} a 1st exponent
+ * @param {number} b 2nd exponent
+ * @param {string} vari variable; base number
+ * @param {string} ans what the student answered
+ * @param {function} f function to evaluate the exponent; e.g. a^5*a^3 would need f= (x,y) => x + y; to obtain the correct answer a^8.
  * @return {string} feedback for the student answer 
  */
 function power(a,b,vari,ans, f){
@@ -333,8 +333,14 @@ function split_to_polynomials(str){
 
     //splits the array further into subarrays for + and -
     for (let i = 0; i < arr.length; i++){
+
+        //delete parentheses
         arr[i] = arr[i].replace(/[\(\)]/g, '')
+
+        //split the strings at + and - such that the sign is still contained in the correct monomial
         let temparr = arr[i].split(/([\+\-]\d*[a-zA-Z]*)/g) //[\+\-]\d*
+
+        //remove empty elements
         arr[i] = temparr.filter(n => n)
     }
     //array of arrays of monomials

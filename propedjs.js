@@ -308,8 +308,7 @@ function quotofpowers(a, b, vari, ans){
     return power(a,b,vari, ans, f =(x,y) => x - y)
 }
 
-function split_into_arrays(str){
-
+function split_to_polynomials(str){
 
     const better_regex = /\)\(|\)(?=\d|[a-zA-Z])|(?<=\d|[a-zA-Z])\(/
 
@@ -333,12 +332,14 @@ function sort_by_power(array) {
 
 }
 
+//TODO: should the methods return a Polynomial?
 class Polynomial{
     constructor(variable, coefficients){
         this.variable = variable;
         this.coefficients = coefficients;
     }
 
+    
 
     /**
      * Let 
@@ -395,7 +396,7 @@ class Polynomial{
                 product.push(sum);
             }
     
-            return product;
+            return new Polynomial(this.variable, product);
         }
         else {
             const e = new Error("Multi-variable product is yet to be implemented")
@@ -422,28 +423,32 @@ class Polynomial{
                 for (let i = lb; i < a.coefficients.length; i++){
                     sum.push(a.coefficients[i])
                 }
-                return sum;
+                return new Polynomial(this.variable, sum);
             }
-    }
-}
+        } else {
+            const e = new Error("Multi-variable product is yet to be implemented")
+            e.name = "NotImplementedError"
+            throw e;
+        }
+    }   
     minus(a){
         return this.plus(new Polynomial(a.variable, a.coefficients.map((e) => -1*e)));
     }
 }
 
 
-//let a = split_into_arrays('(3*x^2 + 2x - 1)(3x +4)')
+//let a = split_to_polynomials('(3*x^2 + 2x - 1)(3x +4)')
 //console.log(a[0]+ " " + a[1])
 
 
 // ------------------ Variables END -----------------------------------
 
 
-console.log(split_into_arrays("(2x-3)(3x-2)"))
+//console.log(split_to_polynomials("(2x-3)(3x-2)"))
 
-//let a = new Polynomial('x', [-2,1])
-//let b = new Polynomial('x', [3,2,5])
-//console.log(a.times(b))
+let a = new Polynomial('x', [-2,1])
+let b = new Polynomial('x', [3,2,5])
+console.log(a.times(b).coefficients)
 //console.log(a.plus(b))
 //console.log(a.minus(b))
 

@@ -335,23 +335,23 @@ describe("powerofpower", () => {
 describe("Polynomial.times", () => {
   
   test('(x-2)(x+3) should be x^2 + x - 6', () => {
-    expect((new Polynomial('x', [-2,1])).times(new Polynomial('x', [3,1]))).toStrictEqual([-6,1,1]);
+    expect((new Polynomial('x', [-2,1])).times(new Polynomial('x', [3,1])).coefficients).toStrictEqual([-6,1,1]);
   });
 
   test('(x+3)(x-2) should be x^2 + x - 6', () => {
-    expect((new Polynomial('x', [3,1])).times(new Polynomial('x', [-2,1]))).toStrictEqual([-6,1,1]);
+    expect((new Polynomial('x', [3,1])).times(new Polynomial('x', [-2,1])).coefficients).toStrictEqual([-6,1,1]);
   });
 
   test('(2x-2)(x+1) should be 2x^2 - 2', () => {
-    expect((new Polynomial('x', [-2,2])).times(new Polynomial('x', [1,1]))).toStrictEqual([-2,0,2]);
+    expect((new Polynomial('x', [-2,2])).times(new Polynomial('x', [1,1])).coefficients).toStrictEqual([-2,0,2]);
   });
 
   test('(2x^3 -4x + 2)(x^7 + x^2 - 1) should be -2 + 4 x + 2 x^2 - 6 x^3 + 2 x^5 + 2 x^7 - 4 x^8 + 2 x^10', () => {
-    expect(new Polynomial('x', [2,-4,0,2]).times(new Polynomial('x', [-1,0,1,0,0,0,0,1]))).toStrictEqual([-2,4,2,-6,0,2,0,2,-4,0,2]);
+    expect(new Polynomial('x', [2,-4,0,2]).times(new Polynomial('x', [-1,0,1,0,0,0,0,1])).coefficients).toStrictEqual([-2,4,2,-6,0,2,0,2,-4,0,2]);
   });
 
   test('2x(3-x) should be -2x^2 + 6x', () => {
-    expect((new Polynomial('x', [0,2])).times(new Polynomial('x', [3,-1]))).toStrictEqual([0,6,-2]);
+    expect((new Polynomial('x', [0,2])).times(new Polynomial('x', [3,-1])).coefficients).toStrictEqual([0,6,-2]);
   });
 
   test('Throws on different variables', () => {

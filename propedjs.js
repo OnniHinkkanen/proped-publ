@@ -1,7 +1,4 @@
 // ------------------ Variables BEGIN -----------------------------------
-
-// const { check } = require("yargs");
-
 let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
 let virhe = "Nyt meni jotakin pieleen!";
 let oikein = "Oikein!";
@@ -81,7 +78,7 @@ function fracQuot(a,b,c,d) {
 
 
 /**
- *Formats the student's answer *
+ *Formats the student's answer
  * @param {string} vast user input
  * @return {Array[string]} input split into array
  */
@@ -91,13 +88,10 @@ function formatFracAns(vast) {
         tempAns = tempAns.substring(1);
     }
     if (!tempAns.includes("/")){
-        //console.log("Ei murtoluku!")
         return [tempAns, '1'];
     }
     const arr = tempAns.split("/");
 
-    //console.log(arr[0]);
-    //console.log(arr[1]);
     return arr;
 }
 

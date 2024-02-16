@@ -1,3 +1,5 @@
+const { palevioletred } = require("color-name");
+
 // ------------------ Variables BEGIN -----------------------------------
 let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
 let virhe = "Nyt meni jotakin pieleen!";
@@ -557,7 +559,7 @@ class Polynomial{
      */
     getCoefficients(arr){
         let coeff = []
-        for (i = 0; i < arr.length; i++){
+        for (let i = 0; i < arr.length; i++){
             let index = arr[i].search(/[a-z]/gi)
             if (index == 0 && arr[i].length === 1){
                 coeff.push(1)
@@ -579,7 +581,7 @@ class Polynomial{
     sort_by_power(arr, vari) {
         let array = arr
         let powers = []
-        for (i = 0; i < array.length; i++){
+        for (let i = 0; i < array.length; i++){
             if (!array[i].includes(vari)){
                 powers.push(0)
                 continue
@@ -635,18 +637,35 @@ class Polynomial{
     
 }
 
+function fbPolyProd(arr1, var1, arr2, var2, input){
+    let a = new Polynomial(var1, arr1)
+    let b = new Polynomial(var2, arr2)
+    let ab = a.times(b)
+    let c = new Polynomial().interpretPolynomial(input)
+
+    if (c.equals(ab)){
+        return oikein
+    }
+
+    return virhe
+
+}
+
+
 
 
 // ------------------ Variables END -----------------------------------
 // The line above is due to TIM integration; everything below will not get exported to TIM.
 
 
-let a = new Polynomial('x', [-2,1,3])
-let b = new Polynomial('x', [-2,1])
+let a = new Polynomial('x', [-2,3])
+let b = new Polynomial('x', [2,1])
 
+let c = a.times(b)
 
+console.log(fbPolyProd([-2,3], 'x', [2,1], 'x', "3x^2 +4x -4"))
 //let c = interpretPolynomial("x -2 +3x^2")
-let d = new Polynomial().interpretPolynomial("x -2 +3x^2");
+let d = new Polynomial().interpretPolynomial("3x^2 +4x -4");
 console.log(a.equals(d))
 
 

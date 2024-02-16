@@ -1,5 +1,7 @@
 // ------------------ Variables BEGIN -----------------------------------
 
+// const { check } = require("yargs");
+
 let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
 let virhe = "Nyt meni jotakin pieleen!";
 let oikein = "Oikein!";
@@ -347,10 +349,57 @@ function split_to_polynomials(str){
     return arr;
 }
 
-function sort_by_power(array) {
+function sort_by_power(array, vari) {
 
 }
 
+function checkVariable(polyarr){
+    let varis = []
+    let letterregexp = /[a-z]/gi
+    let arr = polyarr[0]
+    for (i = 0; i < arr.length; i++) {
+        let index = arr[i].search(letterregexp)
+        varis.push(arr[i].substring(index, index + 1))
+    }
+    //remove empty cells
+    varis = varis.filter(n => n)
+    if (arrMembersEqual(varis)){
+        return varis[0]
+    }    
+    else {
+        const e = new Error("Multi-variable polymomials are not implemented yet")
+            e.name = "NotImplementedError"
+            throw e;
+    }
+}
+
+function arrMembersEqual(arr){
+    if (arr.length > 1){
+        let a = arr[0]
+        for (i = 1; i < arr.length; i++){
+            if (arr[i] !== a) return false;
+        }
+    }
+    return true;
+}
+
+function removeNonDigitChars(arr){
+
+    return []
+}
+
+function interpretPolynomial(polystr){
+    let polyarr = split_to_polynomials(polystr)
+    if (polyarr.length > 1){
+        const e = new Error("Polynomial interpretation is only implemented for a simple polynomial")
+            e.name = "NotImplementedError"
+            throw e;
+    } 
+    let vari = checkVariable(polyarr)
+    polyarr = sort_by_power(polyarr, vari)
+    let coefficients = removeNonDigitChars(polyarr);
+    return new Polynomial(vari, coefficients)    
+}
 
 /**
  *A class for handling polynomial products ads summation. Currently only works with single-variable polynomials, 
@@ -500,6 +549,8 @@ function arrayEquals(a,b) {
 
 let a = new Polynomial('x', [-2,1])
 let b = new Polynomial('x', [-2,1])
+//console.log("2x^2".search(/\D/gm))
+let c = interpretPolynomial("2x^2 -3x + 2")
 console.log(a.equals(b))
 //console.log(a.plus(b))
 //console.log(a.minus(b))

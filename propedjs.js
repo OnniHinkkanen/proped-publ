@@ -478,10 +478,15 @@ class Polynomial{
         return this.plus(new Polynomial(a.variable, a.coefficients.map((e) => -1*e)));
     }
 
+    
     equals(a){
-        if (this.variable == a.variable && this.coefficients == a.coefficients) return true;
+        if (this.variable == a.variable && arrayEquals(this.coefficients, a.coefficients)) return true;
         return false;
     }
+}
+
+function arrayEquals(a,b) {
+    return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
 }
 
 

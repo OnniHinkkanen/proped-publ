@@ -373,6 +373,13 @@ function checkVariable(polyarr){
     }
 }
 
+
+/**
+ *
+ *
+ * @param {*} arr
+ * @return {*} 
+ */
 function arrMembersEqual(arr){
     if (arr.length > 1){
         let a = arr[0]

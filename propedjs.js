@@ -477,6 +477,11 @@ class Polynomial{
     minus(a){
         return this.plus(new Polynomial(a.variable, a.coefficients.map((e) => -1*e)));
     }
+
+    equals(a){
+        if (this.variable == a.variable && this.coefficients == a.coefficients) return true;
+        return false;
+    }
 }
 
 
@@ -489,8 +494,8 @@ class Polynomial{
 //console.log(split_to_polynomials("(2x-3)(3x-2)"))
 
 let a = new Polynomial('x', [-2,1])
-let b = new Polynomial('x', [3,2,5])
-console.log(a.times(b).coefficients)
+let b = new Polynomial('x', [-2,1])
+console.log(a.equals(b))
 //console.log(a.plus(b))
 //console.log(a.minus(b))
 

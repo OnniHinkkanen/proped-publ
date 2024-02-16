@@ -331,7 +331,8 @@ function split_to_polynomials(str){
     const regex = /(?<=\))\(/;
 
     //Remove all white space chars and asterixes and split with the regex
-    let arr = str.replace(/[\s \*]+/g, '').split(better_regex);
+    let nwsstring =str.replace(/[\s \*]+/g, '') 
+    let arr = nwsstring.split(better_regex);
 
     //splits the array further into subarrays for + and -
     for (let i = 0; i < arr.length; i++){
@@ -340,7 +341,8 @@ function split_to_polynomials(str){
         arr[i] = arr[i].replace(/[\(\)]/g, '')
 
         //split the strings at + and - such that the sign is still contained in the correct monomial
-        let temparr = arr[i].split(/([\+\-]\d*[a-zA-Z]*)/g) //[\+\-]\d*
+        let temparr = arr[i].split(/([\+\-]?\d*[a-zA-Z]*\^?\d*)/gi) //[\+\-]\d*
+        // /([\+\-]\d*[a-zA-Z]*)/g
 
         //remove empty elements
         arr[i] = temparr.filter(n => n)
@@ -349,14 +351,12 @@ function split_to_polynomials(str){
     return arr;
 }
 
-function sort_by_power(array, vari) {
 
-}
 
 function checkVariable(polyarr){
     let varis = []
     let letterregexp = /[a-z]/gi
-    let arr = polyarr[0]
+    let arr = polyarr
     for (i = 0; i < arr.length; i++) {
         let index = arr[i].search(letterregexp)
         varis.push(arr[i].substring(index, index + 1))
@@ -368,8 +368,8 @@ function checkVariable(polyarr){
     }    
     else {
         const e = new Error("Multi-variable polymomials are not implemented yet")
-            e.name = "NotImplementedError"
-            throw e;
+        e.name = "NotImplementedError"
+        throw e;
     }
 }
 
@@ -383,9 +383,54 @@ function arrMembersEqual(arr){
     return true;
 }
 
-function removeNonDigitChars(arr){
+function getCoefficients(arr){
+    let coeff = []
+    for (i = 0; i < arr.length; i++){
+        let index = arr[i].search(/[a-z]/gi)
+        if (index == 0 && arr[i].length === 1){
+            coeff.push(1)
+            continue
+        }
+        coeff.push((index !== -1) ? parseInt(arr[i].substring(0, index )) : parseInt(arr[i]))
+    }
+    return coeff
+}
 
-    return []
+function sort_by_power(arr, vari) {
+    let array = arr
+    let powers = []
+    for (i = 0; i < array.length; i++){
+        if (!array[i].includes(vari)){
+            powers.push(0)
+            continue
+        } else if (array[i].includes(vari) && !array[i].includes('^')){
+            powers.push(1)
+        } else {
+            let temparr = array[i].split('^')
+            powers.push(parseInt(temparr[temparr.length -1]))
+        }
+    }
+    if (hasDuplicates(powers)){
+        const e = new Error("The user-given polynomial may be simplified further")
+        e.name = "UserInputError"
+        throw e;
+    }
+
+    let max = Math.max.apply(null, powers)
+    let sorted = []
+    for (i = 0; i <= max; i++){
+        for (j = 0; j < powers.length; j++){
+            if (powers[j] === i) {
+                sorted.push(array[j])
+                break
+            }
+        }
+    }
+    return sorted
+}
+
+function hasDuplicates(array) {
+    return (new Set(array)).size !== array.length;
 }
 
 function interpretPolynomial(polystr){
@@ -395,9 +440,10 @@ function interpretPolynomial(polystr){
             e.name = "NotImplementedError"
             throw e;
     } 
+    polyarr = polyarr[0]
     let vari = checkVariable(polyarr)
     polyarr = sort_by_power(polyarr, vari)
-    let coefficients = removeNonDigitChars(polyarr);
+    let coefficients = getCoefficients(polyarr);
     return new Polynomial(vari, coefficients)    
 }
 
@@ -542,21 +588,14 @@ function arrayEquals(a,b) {
 // ------------------ Variables END -----------------------------------
 // The line above is due to TIM integration; everything below will not get exported to TIM.
 
-//let a = split_to_polynomials('(3*x^2 + 2x - 1)(3x +4)')
-//console.log(a[0]+ " " + a[1])
 
-//console.log(split_to_polynomials("(2x-3)(3x-2)"))
-
-let a = new Polynomial('x', [-2,1])
+let a = new Polynomial('x', [-2,1,3])
 let b = new Polynomial('x', [-2,1])
-//console.log("2x^2".search(/\D/gm))
-let c = interpretPolynomial("2x^2 -3x + 2")
-console.log(a.equals(b))
-//console.log(a.plus(b))
-//console.log(a.minus(b))
 
-//let polytest = new Polynomial('a', [1,2,3]);
-//console.log(polytest.coefficients);
+
+let c = interpretPolynomial("x -2 +3x^2")
+console.log(a.equals(c))
+
 
 module.exports = {
     gcd,

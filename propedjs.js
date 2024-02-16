@@ -317,56 +317,15 @@ function quotofpowers(a, b, vari, ans){
     return power(a,b,vari, ans, f =(x,y) => x - y)
 }
 
-function split_to_polynomials(str){
-
-    const better_regex = /\)\(|\)(?=\d|[a-zA-Z])|(?<=\d|[a-zA-Z])\(/
-
-    //matches ')(' and splits the string into array
-    const regex = /(?<=\))\(/;
-
-    //Remove all white space chars and asterixes and split with the regex
-    let nwsstring =str.replace(/[\s \*]+/g, '') 
-    let arr = nwsstring.split(better_regex);
-
-    //splits the array further into subarrays for + and -
-    for (let i = 0; i < arr.length; i++){
-
-        //delete parentheses
-        arr[i] = arr[i].replace(/[\(\)]/g, '')
-
-        //split the strings at + and - such that the sign is still contained in the correct monomial
-        let temparr = arr[i].split(/([\+\-]?\d*[a-zA-Z]*\^?\d*)/gi) //[\+\-]\d*
-        // /([\+\-]\d*[a-zA-Z]*)/g
-
-        //remove empty elements
-        arr[i] = temparr.filter(n => n)
-    }
-    //array of arrays of monomials
-    return arr;
+/**
+ *
+ *
+ * @param {*} array
+ * @return {*} 
+ */
+function hasDuplicates(array) {
+    return (new Set(array)).size !== array.length;
 }
-
-
-
-function checkVariable(polyarr){
-    let varis = []
-    let letterregexp = /[a-z]/gi
-    let arr = polyarr
-    for (i = 0; i < arr.length; i++) {
-        let index = arr[i].search(letterregexp)
-        varis.push(arr[i].substring(index, index + 1))
-    }
-    //remove empty cells
-    varis = varis.filter(n => n)
-    if (arrMembersEqual(varis)){
-        return varis[0]
-    }    
-    else {
-        const e = new Error("Multi-variable polymomials are not implemented yet")
-        e.name = "NotImplementedError"
-        throw e;
-    }
-}
-
 
 /**
  *
@@ -384,68 +343,9 @@ function arrMembersEqual(arr){
     return true;
 }
 
-function getCoefficients(arr){
-    let coeff = []
-    for (i = 0; i < arr.length; i++){
-        let index = arr[i].search(/[a-z]/gi)
-        if (index == 0 && arr[i].length === 1){
-            coeff.push(1)
-            continue
-        }
-        coeff.push((index !== -1) ? parseInt(arr[i].substring(0, index )) : parseInt(arr[i]))
-    }
-    return coeff
-}
 
-function sort_by_power(arr, vari) {
-    let array = arr
-    let powers = []
-    for (i = 0; i < array.length; i++){
-        if (!array[i].includes(vari)){
-            powers.push(0)
-            continue
-        } else if (array[i].includes(vari) && !array[i].includes('^')){
-            powers.push(1)
-        } else {
-            let temparr = array[i].split('^')
-            powers.push(parseInt(temparr[temparr.length -1]))
-        }
-    }
-    if (hasDuplicates(powers)){
-        const e = new Error("The user-given polynomial may be simplified further")
-        e.name = "UserInputError"
-        throw e;
-    }
-
-    let max = Math.max.apply(null, powers)
-    let sorted = []
-    for (i = 0; i <= max; i++){
-        for (j = 0; j < powers.length; j++){
-            if (powers[j] === i) {
-                sorted.push(array[j])
-                break
-            }
-        }
-    }
-    return sorted
-}
-
-function hasDuplicates(array) {
-    return (new Set(array)).size !== array.length;
-}
-
-function interpretPolynomial(polystr){
-    let polyarr = split_to_polynomials(polystr)
-    if (polyarr.length > 1){
-        const e = new Error("Polynomial interpretation is only implemented for a simple polynomial")
-            e.name = "NotImplementedError"
-            throw e;
-    } 
-    polyarr = polyarr[0]
-    let vari = checkVariable(polyarr)
-    polyarr = sort_by_power(polyarr, vari)
-    let coefficients = getCoefficients(polyarr);
-    return new Polynomial(vari, coefficients)    
+function arrayEquals(a,b) {
+    return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
 }
 
 /**
@@ -573,17 +473,168 @@ class Polynomial{
     minus(a){
         return this.plus(new Polynomial(a.variable, a.coefficients.map((e) => -1*e)));
     }
-
     
+    
+    /**
+     *
+     *
+     * @param {*} a
+     * @return {*} 
+     * @memberof Polynomial
+     */
     equals(a){
         if (this.variable == a.variable && arrayEquals(this.coefficients, a.coefficients)) return true;
         return false;
     }
+
+    /**
+     *
+     *
+     * @param {*} str
+     * @return {*} 
+     */
+    split_to_polynomials(str){
+
+        const better_regex = /\)\(|\)(?=\d|[a-zA-Z])|(?<=\d|[a-zA-Z])\(/
+
+        //matches ')(' and splits the string into array
+        const regex = /(?<=\))\(/;
+
+        //Remove all white space chars and asterixes and split with the regex
+        let nwsstring =str.replace(/[\s \*]+/g, '') 
+        let arr = nwsstring.split(better_regex);
+
+        //splits the array further into subarrays for + and -
+        for (let i = 0; i < arr.length; i++){
+
+            //delete parentheses
+            arr[i] = arr[i].replace(/[\(\)]/g, '')
+
+            //split the strings at + and - such that the sign is still contained in the correct monomial
+            let temparr = arr[i].split(/([\+\-]?\d*[a-zA-Z]*\^?\d*)/gi) //[\+\-]\d*
+            // /([\+\-]\d*[a-zA-Z]*)/g
+
+            //remove empty elements
+            arr[i] = temparr.filter(n => n)
+        }
+        //array of arrays of monomials
+        return arr;
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} polyarr
+     * @return {*} 
+     */
+    checkVariable(polyarr){
+        let varis = []
+        let letterregexp = /[a-z]/gi
+        let arr = polyarr
+        for (let i = 0; i < arr.length; i++) {
+            let index = arr[i].search(letterregexp)
+            varis.push(arr[i].substring(index, index + 1))
+        }
+        //remove empty cells
+        varis = varis.filter(n => n)
+        if (arrMembersEqual(varis)){
+            return varis[0]
+        }    
+        else {
+            const e = new Error("Multi-variable polymomials are not implemented yet")
+            e.name = "NotImplementedError"
+            throw e;
+        }
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} arr
+     * @return {*} 
+     */
+    getCoefficients(arr){
+        let coeff = []
+        for (i = 0; i < arr.length; i++){
+            let index = arr[i].search(/[a-z]/gi)
+            if (index == 0 && arr[i].length === 1){
+                coeff.push(1)
+                continue
+            }
+            coeff.push((index !== -1) ? parseInt(arr[i].substring(0, index )) : parseInt(arr[i]))
+        }
+        return coeff
+    }
+
+
+    /**
+     *
+     *
+     * @param {*} arr
+     * @param {*} vari
+     * @return {*} 
+     */
+    sort_by_power(arr, vari) {
+        let array = arr
+        let powers = []
+        for (i = 0; i < array.length; i++){
+            if (!array[i].includes(vari)){
+                powers.push(0)
+                continue
+            } else if (array[i].includes(vari) && !array[i].includes('^')){
+                powers.push(1)
+            } else {
+                let temparr = array[i].split('^')
+                powers.push(parseInt(temparr[temparr.length -1]))
+            }
+        }
+        if (hasDuplicates(powers)){
+            const e = new Error("The user-given polynomial may be simplified further")
+            e.name = "UserInputError"
+            throw e;
+        }
+
+        let max = Math.max.apply(null, powers)
+        let sorted = []
+        for (let i = 0; i <= max; i++){
+            for (let j = 0; j < powers.length; j++){
+                if (powers[j] === i) {
+                    sorted.push(array[j])
+                    break
+                }
+            }
+        }
+        return sorted
+    }
+
+
+
+
+
+    /**
+     *
+     *
+     * @param {*} polystr
+     * @return {*} 
+     */
+    interpretPolynomial(polystr){
+        let polyarr = this.split_to_polynomials(polystr)
+        if (polyarr.length > 1){
+            const e = new Error("Polynomial interpretation is only implemented for a simple polynomial")
+                e.name = "NotImplementedError"
+                throw e;
+        } 
+        polyarr = polyarr[0]
+        let vari = this.checkVariable(polyarr)
+        polyarr = this.sort_by_power(polyarr, vari)
+        let coefficients = this.getCoefficients(polyarr);
+        return new Polynomial(vari, coefficients)    
+    }
+    
 }
 
-function arrayEquals(a,b) {
-    return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
-}
 
 
 // ------------------ Variables END -----------------------------------
@@ -594,8 +645,9 @@ let a = new Polynomial('x', [-2,1,3])
 let b = new Polynomial('x', [-2,1])
 
 
-let c = interpretPolynomial("x -2 +3x^2")
-console.log(a.equals(c))
+//let c = interpretPolynomial("x -2 +3x^2")
+let d = new Polynomial().interpretPolynomial("x -2 +3x^2");
+console.log(a.equals(d))
 
 
 module.exports = {

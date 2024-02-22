@@ -660,7 +660,7 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
     let a = new Polynomial(var1, arr1.map((e) => parseInt(e)))
     let b = new Polynomial(var2, arr2.map((e) => parseInt(e)))
     let ab = a.times(b)
-    let c = new Polynomial().interpretPolynomial(input)
+    let c = new Polynomial().interpretPolynomial((input.substring(0,1) === '=') ? input.substring(1) : input)
 
     if (c.equals(ab)){
         return oikein
@@ -682,7 +682,7 @@ let b = new Polynomial('x', [2,1])
 
 let c = a.times(b)
 
-console.log(fbPolyProd('x', [-2,3], 'x', [2,1], "3x^2 +4x -4"))
+console.log(fbPolyProd('x', ['-2','3'], 'x', ['2','1'], "=3x^2 +4x -4"))
 //let c = interpretPolynomial("x -2 +3x^2")
 let d = new Polynomial().interpretPolynomial("3x^2 +4x -4");
 console.log(a.equals(d))

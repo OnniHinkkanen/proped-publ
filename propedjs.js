@@ -1,5 +1,3 @@
-// const { palevioletred } = require("color-name");
-
 // ------------------ Variables BEGIN -----------------------------------
 let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
 let virhe = "Nyt meni jotakin pieleen!";
@@ -659,8 +657,8 @@ class Polynomial{
  * @return {string} feedback
  */
 function fbPolyProd(var1, arr1, var2, arr2, input){
-    let a = new Polynomial(var1, arr1)
-    let b = new Polynomial(var2, arr2)
+    let a = new Polynomial(var1, arr1.map((e) => parseInt(e)))
+    let b = new Polynomial(var2, arr2.map((e) => parseInt(e)))
     let ab = a.times(b)
     let c = new Polynomial().interpretPolynomial(input)
 

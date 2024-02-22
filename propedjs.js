@@ -1,4 +1,4 @@
-const { palevioletred } = require("color-name");
+// const { palevioletred } = require("color-name");
 
 // ------------------ Variables BEGIN -----------------------------------
 let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
@@ -147,7 +147,7 @@ if (tempAns.includes("=")){
     tempAns = tempAns.substring(1);
 }
 
-pans = parseFloat(tempAns.replace(',','.'));
+let pans = parseFloat(tempAns.replace(',','.'));
 
 if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
     return syoteVirhe;
@@ -186,9 +186,7 @@ function fracFeedback(vastArr, oikArr){
         if (oikArr[1] == 1 && tempAnsArr[1]/gcdAns != 1) {
             return virhe;
         }
-        //if  (tempAnsArr[0]%oikArr[0] == 0 && tempAnsArr[1]%oikArr[1] == 0 ) {
-        //    return "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
-        //}
+
         if  (tempAnsArr[0]/ gcdAns == oikArr[0] && tempAnsArr[1]/gcdAns == oikArr[1] ) {
             return sievennys;
         }  
@@ -320,20 +318,20 @@ function quotofpowers(a, b, vari, ans){
 }
 
 /**
+ * Checks if an array contains duplicates.
  *
- *
- * @param {*} array
- * @return {*} 
+ * @param {array} array
+ * @return {boolean} 
  */
 function hasDuplicates(array) {
     return (new Set(array)).size !== array.length;
 }
 
 /**
+ * Checks if all the members of an array are equal.
  *
- *
- * @param {*} arr
- * @return {*} 
+ * @param {Array} arr array
+ * @return {boolean} 
  */
 function arrMembersEqual(arr){
     if (arr.length > 1){
@@ -346,12 +344,19 @@ function arrMembersEqual(arr){
 }
 
 
+/**
+ * Array equality method, non-deep
+ *
+ * @param {Array} a 1st array
+ * @param {Array} b 2nd array
+ * @return {boolean} 
+ */
 function arrayEquals(a,b) {
     return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
 }
 
 /**
- *A class for handling polynomial products ads summation. Currently only works with single-variable polynomials, 
+ *A class for handling polynomial products and summation. Currently only works with single-variable polynomials, 
  *but extending this to multi-variable polynomials should not be hard at all.
  *
  * @class Polynomial
@@ -478,10 +483,10 @@ class Polynomial{
     
     
     /**
+     * Checks the equality of two polynomials.
      *
-     *
-     * @param {*} a
-     * @return {*} 
+     * @param {Polynomial} a the other polynomial
+     * @return {boolean} equality
      * @memberof Polynomial
      */
     equals(a){
@@ -490,21 +495,22 @@ class Polynomial{
     }
 
     /**
+     * Splits a polynomial product expression into it's factors, i.e. (2x -3)(-4 -12x^2) will return [[2x, -3],[-4, -12x^2]]
      *
-     *
-     * @param {*} str
-     * @return {*} 
+     * @param {string} str polynomial product as a string
+     * @return {Array[Array[string]]} 2D array of the monomials contained in the product 
+     * @memberof Polynomial
      */
     split_to_polynomials(str){
 
         const better_regex = /\)\(|\)(?=\d|[a-zA-Z])|(?<=\d|[a-zA-Z])\(/
 
         //matches ')(' and splits the string into array
-        const regex = /(?<=\))\(/;
+        // const regex = /(?<=\))\(/;
 
         //Remove all white space chars and asterixes and split with the regex
-        let nwsstring =str.replace(/[\s \*]+/g, '') 
-        let arr = nwsstring.split(better_regex);
+        let newstring =str.replace(/[\s \*]+/g, '') 
+        let arr = newstring.split(better_regex);
 
         //splits the array further into subarrays for + and -
         for (let i = 0; i < arr.length; i++){
@@ -525,10 +531,11 @@ class Polynomial{
 
 
     /**
+     * Checks that a polynomial only has one variable.
      *
-     *
-     * @param {*} polyarr
-     * @return {*} 
+     * @param {Array[string]} polyarr array of monomials
+     * @return {char} the variable
+     * @memberof Polynomial
      */
     checkVariable(polyarr){
         let varis = []
@@ -552,10 +559,11 @@ class Polynomial{
 
 
     /**
+     * Get the coefficients of an array of monomials
      *
-     *
-     * @param {*} arr
-     * @return {*} 
+     * @param {Array[string]} arr array of monomials
+     * @return {Array[number]} array of coefficients 
+     * @memberof Polynomial
      */
     getCoefficients(arr){
         let coeff = []
@@ -572,11 +580,12 @@ class Polynomial{
 
 
     /**
+     * Sorts an array of monomials by power.
      *
-     *
-     * @param {*} arr
-     * @param {*} vari
-     * @return {*} 
+     * @param {Array[string]} arr array of monomials
+     * @param {char} vari variable
+     * @return {Array[string]} sorted array of monomials
+     * @memberof Polynomial
      */
     sort_by_power(arr, vari) {
         let array = arr
@@ -616,10 +625,11 @@ class Polynomial{
 
 
     /**
+     *  Parses student answer into a polynomial
      *
-     *
-     * @param {*} polystr
-     * @return {*} 
+     * @param {string} polystr string to be parsed
+     * @return {Polynomial} resulting polynomial
+     * @memberof Polynomial 
      */
     interpretPolynomial(polystr){
         let polyarr = this.split_to_polynomials(polystr)
@@ -637,7 +647,18 @@ class Polynomial{
     
 }
 
-function fbPolyProd(arr1, var1, arr2, var2, input){
+
+/**
+ *Gives feedback about student's polynomial product answer.
+ *
+ * @param {char} var1 Variable of the 1st polynomial
+ * @param {number} arr1 Coefficients [x_0, x_1, ...] of the 1st polynomial
+ * @param {char} var2 variable of the 2nd polynomial
+ * @param {number} arr2 coefficients of the 2nd polynomial
+ * @param {string} input student answer
+ * @return {string} feedback
+ */
+function fbPolyProd(var1, arr1, var2, arr2, input){
     let a = new Polynomial(var1, arr1)
     let b = new Polynomial(var2, arr2)
     let ab = a.times(b)
@@ -663,7 +684,7 @@ let b = new Polynomial('x', [2,1])
 
 let c = a.times(b)
 
-console.log(fbPolyProd([-2,3], 'x', [2,1], 'x', "3x^2 +4x -4"))
+console.log(fbPolyProd('x', [-2,3], 'x', [2,1], "3x^2 +4x -4"))
 //let c = interpretPolynomial("x -2 +3x^2")
 let d = new Polynomial().interpretPolynomial("3x^2 +4x -4");
 console.log(a.equals(d))
@@ -691,11 +712,5 @@ module.exports = {
     syoteVirhe,
     Polynomial,
 };
-
-
-//console.log(bintimesbin('(2x - 1)(3x +4)','x'))
-
-//console.log(decFeedback('0.705', '0.365', '=1,070', f = (x,y) => x + y));
-//console.log(decFeedback('0.245', '0.483', '0,118335', f= (x,y) => x*y));
 
 // ================================================= OLD JUNK =====================================================

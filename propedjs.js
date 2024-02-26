@@ -133,31 +133,31 @@ function decFeedback(a, b, ans, f){
     pa = a,
     pb = b;
 
-if (typeof a != 'number'){
-    pa = parseFloat(a);
-}
+    if (typeof a != 'number'){
+        pa = parseFloat(a);
+    }
 
-if (typeof b != 'number'){
-    pb = parseFloat(b);
-}
+    if (typeof b != 'number'){
+        pb = parseFloat(b);
+    }
 
-if (tempAns.includes("=")){
-    tempAns = tempAns.substring(1);
-}
+    if (tempAns.includes("=")){
+        tempAns = tempAns.substring(1);
+    }
 
-let pans = parseFloat(tempAns.replace(',','.'));
+    let pans = parseFloat(tempAns.replace(',','.'));
 
-if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-    return syoteVirhe;
-}
+    if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
+        return syoteVirhe;
+    }
 
-let result = f(pa, pb);
+    let result = f(pa, pb);
 
-if (approxEq(result, pans)) {
-    return oikein;
-}
+    if (approxEq(result, pans)) {
+        return oikein;
+    }
 
-return virhe;
+    return virhe;
 }
 
 
@@ -506,8 +506,8 @@ class Polynomial{
         //matches ')(' and splits the string into array
         // const regex = /(?<=\))\(/;
 
-        //Remove all white space chars and asterixes and split with the regex
-        let newstring =str.replace(/[\s \*]+/g, '') 
+        //Remove all white space chars, asterixes and equal signs and split with the above regex
+        let newstring =str.replace(/[\s \*=]+/g, '') 
         let arr = newstring.split(better_regex);
 
         //splits the array further into subarrays for + and -
@@ -566,6 +566,10 @@ class Polynomial{
     getCoefficients(arr){
         let coeff = []
         for (let i = 0; i < arr.length; i++){
+            if (arr[i] === 0){
+                coeff.push(0)
+                continue
+            }
             let index = arr[i].search(/[a-z]/gi)
             if (index == 0 && arr[i].length === 1){
                 coeff.push(1)
@@ -582,7 +586,7 @@ class Polynomial{
      *
      * @param {Array[string]} arr array of monomials
      * @param {char} vari variable
-     * @return {Array[string]} sorted array of monomials
+     * @return {Array[string]} sorted array of monomials (with '0' cells if need)
      * @memberof Polynomial
      */
     sort_by_power(arr, vari) {
@@ -613,6 +617,10 @@ class Polynomial{
                     sorted.push(array[j])
                     break
                 }
+
+                if (j === powers.length -1) {
+                    sorted.push(0)
+                }
             }
         }
         return sorted
@@ -631,11 +639,18 @@ class Polynomial{
      */
     interpretPolynomial(polystr){
         let polyarr = this.split_to_polynomials(polystr)
-        if (polyarr.length > 1){
+        if (polyarr.length > 1 ){
             const e = new Error("Polynomial interpretation is only implemented for a simple polynomial")
                 e.name = "NotImplementedError"
                 throw e;
         } 
+
+        if (polyarr[0].length === 0 ){
+            const e = new Error("The input string does not contain a polynomial")
+                e.name = "UserInputError"
+                throw e;
+        } 
+
         polyarr = polyarr[0]
         let vari = this.checkVariable(polyarr)
         polyarr = this.sort_by_power(polyarr, vari)
@@ -684,8 +699,8 @@ let c = a.times(b)
 
 console.log(fbPolyProd('x', ['-2','3'], 'x', ['2','1'], "=3x^2 +4x -4"))
 //let c = interpretPolynomial("x -2 +3x^2")
-let d = new Polynomial().interpretPolynomial("3x^2 +4x -4");
-console.log(a.equals(d))
+let d = new Polynomial().interpretPolynomial("x");
+console.log(d + d.coefficients)
 
 
 module.exports = {

@@ -501,7 +501,7 @@ class Polynomial{
      */
     split_to_polynomials(str){
 
-        const better_regex = /\)\(|\)(?=\d|[a-zA-Z])|(?<=\d|[a-zA-Z])\(/
+        const better_regex = /\)\(|\)(?=\d|[a-zA-Z]|-|\+)|(?<=\d|[a-zA-Z])\(/
 
         //matches ')(' and splits the string into array
         // const regex = /(?<=\))\(/;
@@ -682,10 +682,42 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
     }
 
     return virhe
-
 }
 
+/**
+ *Gives feedback about student's polynomial sum answer.
+ *
+ * @param {char} var1 Variable of the 1st polynomial
+ * @param {number} arr1 Coefficients [x_0, x_1, ...] of the 1st polynomial
+ * @param {char} var2 variable of the 2nd polynomial
+ * @param {number} arr2 coefficients of the 2nd polynomial
+ * @param {string} input student answer
+ * @return {string} feedback
+ */
+ function fbPolySum(var1, arr1, var2, arr2, input){
+    let a = new Polynomial(var1, arr1.map((e) => parseInt(e)))
+    let b = new Polynomial(var2, arr2.map((e) => parseInt(e)))
+    let ab = a.plus(b)
+    let c = new Polynomial().interpretPolynomial((input.substring(0,1) === '=') ? input.substring(1) : input)
 
+    if (c.equals(ab)){
+        return oikein
+    }
+
+    return virhe
+}
+
+function parseAndCalcPolyProd(prod) {
+    let arr = new Polynomial().split_to_polynomials(prod)
+    if (arr.length > 2){
+        const e = new Error("No support for parsing and calculating a product of more than two polynomials.")
+                e.name = "NotImplementedError"
+                throw e;
+    }
+
+    let a = new Polynomial().interpretPolynomial(arr[0])
+    let b = new Polynomial().interpretPolynomial(arr[1])
+}
 
 
 // ------------------ Variables END -----------------------------------
@@ -697,9 +729,12 @@ let b = new Polynomial('x', [2,1])
 
 let c = a.times(b)
 
-console.log(fbPolyProd('x', ['-2','3'], 'x', ['2','1'], "=3x^2 +4x -4"))
+
+
+console.log(fbPolySum('x', ['-2','3'], 'x', ['2','1'], "=4x"))
 //let c = interpretPolynomial("x -2 +3x^2")
 let d = new Polynomial().interpretPolynomial("x");
+let e = new Polynomial().split_to_polynomials("(x^2 - 3x)-2x")
 console.log(d + d.coefficients)
 
 
@@ -719,6 +754,7 @@ module.exports = {
     prodofpowers,
     quotofpowers,
     powerofpower,
+    fbPolyProd,
     sievennys,
     virhe,
     oikein,

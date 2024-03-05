@@ -719,8 +719,8 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
  * @return {string} feedback
  */
  function fbPolyMinus(var1, arr1, var2, arr2, input){
-    let a = new Polynomial(var1, arr1.map((e) => -1*parseInt(e)))
-    let b = new Polynomial(var2, arr2.map((e) => -1*parseInt(e)))
+    let a = new Polynomial(var1, arr1.map((e) => parseInt(e)))
+    let b = new Polynomial(var2, arr2.map((e) => parseInt(e)))
     let ab = a.minus(b)
     let c = new Polynomial().interpretPolynomial((input.substring(0,1) === '=') ? input.substring(1) : input)
 
@@ -754,8 +754,9 @@ let b = new Polynomial('x', [2,1])
 let c = a.times(b)
 
 
+//(4x−9)−(7x+5)
 
-console.log(fbPolySum('x', ['-2','3'], 'x', ['2','1'], "=4x"))
+console.log(fbPolyMinus('x', ['-9','4'], 'x', ['5','7'], "= -3x -14"))
 //let c = interpretPolynomial("x -2 +3x^2")
 let d = new Polynomial().interpretPolynomial("x");
 let e = new Polynomial().split_to_polynomials("(x^2 - 3x)-2x")

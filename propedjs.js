@@ -707,6 +707,30 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
     return virhe
 }
 
+
+/**
+ *Gives feedback about student's polynomial sum answer.
+ *
+ * @param {char} var1 Variable of the 1st polynomial
+ * @param {number} arr1 Coefficients [x_0, x_1, ...] of the 1st polynomial
+ * @param {char} var2 variable of the 2nd polynomial
+ * @param {number} arr2 coefficients of the 2nd polynomial
+ * @param {string} input student answer
+ * @return {string} feedback
+ */
+ function fbPolyMinus(var1, arr1, var2, arr2, input){
+    let a = new Polynomial(var1, arr1.map((e) => -1*parseInt(e)))
+    let b = new Polynomial(var2, arr2.map((e) => -1*parseInt(e)))
+    let ab = a.minus(b)
+    let c = new Polynomial().interpretPolynomial((input.substring(0,1) === '=') ? input.substring(1) : input)
+
+    if (c.equals(ab)){
+        return oikein
+    }
+
+    return virhe
+}
+
 function parseAndCalcPolyProd(prod) {
     let arr = new Polynomial().split_to_polynomials(prod)
     if (arr.length > 2){

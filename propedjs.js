@@ -95,6 +95,50 @@ function formatFracAns(vast) {
     return arr;
 }
 
+function fracSimp(arr){
+    let osoittaja = arr[0]
+    let nimittaja = arr[1]
+    let jakaja = gcd(osoittaja, nimittaja);
+    while (jakaja > 1){
+        osoittaja = osoittaja / jakaja;
+        nimittaja = nimittaja / jakaja;
+        jakaja = gcd(osoittaja, nimittaja)
+    }
+
+    return [osoittaja, nimittaja]
+}
+
+/**
+ * Returns the feedback string for the corresponding user input
+ *
+ * @param {Array[string]} vastArr user's answer as an array
+ * @param {Array[number]} oikArr actual answer as an array
+ * @return {string} feedback to be printed
+ */
+function fracFeedback(vastArr, oikArr){
+    let tempAnsArr = [parseInt(vastArr[0]), parseInt(vastArr[1])]
+    
+
+    if (isNaN(tempAnsArr[0]) || isNaN(tempAnsArr[1])){
+        return syoteVirhe;
+    }
+
+    let gcdAns = gcd(tempAnsArr[0], tempAnsArr[1]);
+    
+    if (tempAnsArr[0] == oikArr[0] && tempAnsArr[1] == oikArr[1]){
+        return oikein;
+    } else if (gcdAns > 1 ) {
+        if (oikArr[1] == 1 && tempAnsArr[1]/gcdAns != 1) {
+            return virhe;
+        }
+
+        if  (tempAnsArr[0]/ gcdAns == oikArr[0] && tempAnsArr[1]/gcdAns == oikArr[1] ) {
+            return sievennys;
+        }  
+    } 
+    return virhe;
+}
+
 /**
  * Returns feedback for decimal sum answer
  *
@@ -161,36 +205,7 @@ function decFeedback(a, b, ans, f){
 }
 
 
-/**
- * Returns the feedback string for the corresponding user input
- *
- * @param {Array[string]} vastArr user's answer as an array
- * @param {Array[number]} oikArr actual answer as an array
- * @return {string} feedback to be printed
- */
-function fracFeedback(vastArr, oikArr){
-    let tempAnsArr = [parseInt(vastArr[0]), parseInt(vastArr[1])]
-    
 
-    if (isNaN(tempAnsArr[0]) || isNaN(tempAnsArr[1])){
-        return syoteVirhe;
-    }
-
-    let gcdAns = gcd(tempAnsArr[0], tempAnsArr[1]);
-    
-    if (tempAnsArr[0] == oikArr[0] && tempAnsArr[1] == oikArr[1]){
-        return oikein;
-    } else if (gcdAns > 1 ) {
-        if (oikArr[1] == 1 && tempAnsArr[1]/gcdAns != 1) {
-            return virhe;
-        }
-
-        if  (tempAnsArr[0]/ gcdAns == oikArr[0] && tempAnsArr[1]/gcdAns == oikArr[1] ) {
-            return sievennys;
-        }  
-    } 
-    return virhe;
-}
 
 /**
  * Rounds decimal numbers 

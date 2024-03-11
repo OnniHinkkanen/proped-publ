@@ -96,16 +96,19 @@ function formatFracAns(vast) {
 }
 
 function fracSimp(arr){
-    let osoittaja = arr[0]
-    let nimittaja = arr[1]
+    let osoittaja = arr[0];
+    let nimittaja = arr[1];
     let jakaja = gcd(osoittaja, nimittaja);
     while (jakaja > 1){
         osoittaja = osoittaja / jakaja;
         nimittaja = nimittaja / jakaja;
-        jakaja = gcd(osoittaja, nimittaja)
+        jakaja = gcd(osoittaja, nimittaja);
     }
-
-    return [osoittaja, nimittaja]
+    if (osoittaja < 0 && nimittaja < 0){
+        osoittaja = Math.abs(osoittaja);
+        nimittaja = Math.abs(nimittaja);
+    }
+    return [osoittaja, nimittaja];
 }
 
 /**
@@ -763,20 +766,16 @@ function parseAndCalcPolyProd(prod) {
 // The line above is due to TIM integration; everything below will not get exported to TIM.
 
 
-let a = new Polynomial('x', [-2,3])
-let b = new Polynomial('x', [2,1])
+// 8x+6=9x−7
 
-let c = a.times(b)
+//=1
 
+//let fmt = formatFracAns(vastaus);
+//let tulostus = fracFeedback(fracSimp([%%d%% + %%b%%, %%a*merkki1%% - %%c*merkki2%%]), vastaus);
 
-//(4x−9)−(7x+5)
-
-console.log(fbPolyMinus('x', ['-9','4'], 'x', ['5','7'], "= -3x -14"))
-//let c = interpretPolynomial("x -2 +3x^2")
-let d = new Polynomial().interpretPolynomial("x");
-let e = new Polynomial().split_to_polynomials("(x^2 - 3x)-2x")
-console.log(d + d.coefficients)
-
+let fmt = formatFracAns('=1')
+let tulostus = fracFeedback(fracSimp([-7 +6, 8-9]), fmt)
+console.log(tulostus)
 
 module.exports = {
     gcd,

@@ -767,8 +767,10 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
  */
 function fb2ndOrderEq(a, b, ans){
     let roots = [a,b]
-    let ansrootstr = ans.replace(/\s/, '').split(/\,|ja|tai/gmi)
+    let ansrootstr = ans.replace(/\s/g, '').split(/\,|ja|tai/gmi)
     let ansroots = []
+
+    //Separate the user given values into an array
     for (let i = 0; i < ansrootstr.length; i++){
 
         let match = ansrootstr[i].match(/(?<=[a-z]\=)[\-\+]?\d/gmi);
@@ -794,7 +796,7 @@ function fb2ndOrderEq(a, b, ans){
 //let fmt = formatFracAns(vastaus);
 //let let tulostus = fracFeedback(fracSimp([%%d*merkki2%% - %%b*merkki1%%, %%a%% - %%c%%]), fmt);
 
-console.log(fb2ndOrderEq(-3,-3, 'x=-3 ja x=-3'))
+console.log(fb2ndOrderEq(-2,3, 'x = -2 ja x = 3'))
 
  module.exports = {
     gcd,

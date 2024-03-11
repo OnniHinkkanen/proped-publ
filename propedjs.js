@@ -1,8 +1,8 @@
 // ------------------ Variables BEGIN -----------------------------------
-let sievennys = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
-let virhe = "Nyt meni jotakin pieleen!";
-let oikein = "Oikein!";
-let syoteVirhe = "Syötteesi ei ole numeerisessa muodossa!";
+const SIMPLIFY = "Vastaus ei ole sievimmässä mahdollisessa muodossa.";
+const INCORRECT = "Nyt meni jotakin pieleen!";
+const CORRECT = "Oikein!";
+const INPUTERROR = "Syötteesi ei ole numeerisessa muodossa!";
 
 /**
  * Calculates the gcd of two numbers
@@ -33,15 +33,23 @@ function gcd(a, b) {
  * @return {Array[number]} [num, denom] of resulting frac
  */
 function fracSum(a,b,c,d){
-    let osoittaja = a*d + b*c;
-    let nimittaja = b*d;
-    let jakaja = gcd(osoittaja, nimittaja);
-    while (jakaja > 1){
-        osoittaja = osoittaja / jakaja;
-        nimittaja = nimittaja / jakaja;
-        jakaja = gcd(osoittaja, nimittaja)
-    }
-    return [osoittaja, nimittaja];
+    return fracCalc(a,b,c,d,f = (a1,b1,c1,d1) => [a1*d1 + b1*c1, b1*d1]); 
+}
+
+
+/**
+ *Applies a function to two fractions of the form a/b and c/d
+ *
+ * @param {number} a num of 1st frac
+ * @param {number} b denom of 1st frac
+ * @param {number} c num of 2nd frac
+ * @param {number} d denom of 2nd frac
+ * @param {function} f Function to be applied, must return an array of length 2. 
+ * e.g. for fraction summation f = (a,b,c,d) => [a*d + b*c, b*d] where the array is in the form [numerator, denominator].
+ * @return {Array[number]} [num, denom] of resulting frac
+ */
+function fracCalc(a,b,c,d,f){
+    return fracSimp(f(a,b,c,d));
 }
 
 /**
@@ -53,15 +61,7 @@ function fracSum(a,b,c,d){
  * @return {Array[number]} [num, denom] of resulting frac
  */
 function fracProd(a,b,c,d) {
-    let osoittaja = a*c;
-    let nimittaja = b*d;
-    let jakaja = gcd(osoittaja, nimittaja);
-    while (jakaja > 1){
-        osoittaja = osoittaja / jakaja;
-        nimittaja = nimittaja / jakaja;
-        jakaja = gcd(osoittaja, nimittaja)
-    }
-    return [osoittaja, nimittaja];
+    return fracCalc(a,b,c,d, f= (a1,b1,c1,d1) => [a1*c1, b1*d1])
 }
 
 /**
@@ -90,25 +90,31 @@ function formatFracAns(vast) {
     if (!tempAns.includes("/")){
         return [tempAns, '1'];
     }
-    const arr = tempAns.split("/");
 
-    return arr;
+    return tempAns.split("/");
 }
 
+
+/**
+ *Simple method for simplifying a fraction 
+ *
+ * @param {Array[number]} arr array of the form [numerator, denominator]
+ * @return {Array[number]} Simplified fraction
+ */
 function fracSimp(arr){
-    let osoittaja = arr[0];
-    let nimittaja = arr[1];
-    let jakaja = gcd(osoittaja, nimittaja);
-    while (jakaja > 1){
-        osoittaja = osoittaja / jakaja;
-        nimittaja = nimittaja / jakaja;
-        jakaja = gcd(osoittaja, nimittaja);
+    let num = arr[0];
+    let denom = arr[1];
+    let divisor = gcd(num, denom);
+    while (divisor > 1){
+        num = num / divisor;
+        denom = denom / divisor;
+        divisor = gcd(num, denom);
     }
-    if (osoittaja < 0 && nimittaja < 0){
-        osoittaja = Math.abs(osoittaja);
-        nimittaja = Math.abs(nimittaja);
+    if (num < 0 && denom < 0){
+        num = Math.abs(num);
+        denom = Math.abs(denom);
     }
-    return [osoittaja, nimittaja];
+    return [num, denom];
 }
 
 /**
@@ -123,23 +129,23 @@ function fracFeedback(vastArr, oikArr){
     
 
     if (isNaN(tempAnsArr[0]) || isNaN(tempAnsArr[1])){
-        return syoteVirhe;
+        return INPUTERROR;
     }
 
     let gcdAns = gcd(tempAnsArr[0], tempAnsArr[1]);
     
     if (tempAnsArr[0] == oikArr[0] && tempAnsArr[1] == oikArr[1]){
-        return oikein;
+        return CORRECT;
     } else if (gcdAns > 1 ) {
         if (oikArr[1] == 1 && tempAnsArr[1]/gcdAns != 1) {
-            return virhe;
+            return INCORRECT;
         }
 
         if  (tempAnsArr[0]/ gcdAns == oikArr[0] && tempAnsArr[1]/gcdAns == oikArr[1] ) {
-            return sievennys;
+            return SIMPLIFY;
         }  
     } 
-    return virhe;
+    return INCORRECT;
 }
 
 /**
@@ -195,16 +201,16 @@ function decFeedback(a, b, ans, f){
     let pans = parseFloat(tempAns.replace(',','.'));
 
     if (isNaN(pans) || isNaN(pa) || isNaN(pb) ){
-        return syoteVirhe;
+        return INPUTERROR;
     }
 
     let result = f(pa, pb);
 
     if (approxEq(result, pans)) {
-        return oikein;
+        return CORRECT;
     }
 
-    return virhe;
+    return INCORRECT;
 }
 
 
@@ -310,15 +316,15 @@ function power(a,b,vari,ans, f){
     let tempAns = ans.replace('=', '').replace('(','').replace(')','');
     if (!tempAns.includes(vari)){
         if (f(a,b) == 0 && parseInt(tempAns) == 1){
-            return oikein;
+            return CORRECT;
         }
-        return virhe;
+        return INCORRECT;
     }
     let arr = tempAns.split('^');
     if (parseInt(arr[1]) == f(a,b)){
-        return oikein;
+        return CORRECT;
     }
-    return virhe;
+    return INCORRECT;
 }
 
 /**
@@ -696,10 +702,10 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
     let c = new Polynomial().interpretPolynomial((input.substring(0,1) === '=') ? input.substring(1) : input)
 
     if (c.equals(ab)){
-        return oikein
+        return CORRECT
     }
 
-    return virhe
+    return INCORRECT
 }
 
 /**
@@ -719,15 +725,15 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
     let c = new Polynomial().interpretPolynomial((input.substring(0,1) === '=') ? input.substring(1) : input)
 
     if (c.equals(ab)){
-        return oikein
+        return CORRECT
     }
 
-    return virhe
+    return INCORRECT
 }
 
 
 /**
- *Gives feedback about student's polynomial sum answer.
+ *Gives feedback about student's polynomial subtraction answer.
  *
  * @param {char} var1 Variable of the 1st polynomial
  * @param {number} arr1 Coefficients [x_0, x_1, ...] of the 1st polynomial
@@ -743,41 +749,51 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
     let c = new Polynomial().interpretPolynomial((input.substring(0,1) === '=') ? input.substring(1) : input)
 
     if (c.equals(ab)){
-        return oikein
+        return CORRECT
     }
 
-    return virhe
+    return INCORRECT
 }
 
-function parseAndCalcPolyProd(prod) {
-    let arr = new Polynomial().split_to_polynomials(prod)
-    if (arr.length > 2){
-        const e = new Error("No support for parsing and calculating a product of more than two polynomials.")
-                e.name = "NotImplementedError"
-                throw e;
+
+/**
+ * Has to have one-digit roots.
+ *
+ * @param {*} a
+ * @param {*} b
+ * @param {*} ans
+ * @return {*} 
+ */
+function fb2ndOrderEq(a, b, ans){
+    let roots = [a,b]
+    let ansrootstr = ans.replace(/\s/, '').split(/\,|ja|tai/gmi)
+    let ansroots = []
+    for (let i = 0; i < ansrootstr.length; i++){
+
+        let match = ansrootstr[i].match(/(?<=[a-z]\=)[\-\+]?\d/gmi);
+        // User answer is not of correct form
+        if ( match == null || match == ''){
+            return INPUTERROR;
+        }
+        ansroots.push(parseInt(match))
     }
-
-    let a = new Polynomial().interpretPolynomial(arr[0])
-    let b = new Polynomial().interpretPolynomial(arr[1])
+    return (roots.sort().join(',') === ansroots.sort().join(',')) ? CORRECT : INCORRECT;
 }
-
 
 // ------------------ Variables END -----------------------------------
 // The line above is due to TIM integration; everything below will not get exported to TIM.
 
 
-// 8x+6=9x−7
+// 10x+10=6x−6
 
-//=1
+//=-16/4
 
 //let fmt = formatFracAns(vastaus);
-//let tulostus = fracFeedback(fracSimp([%%d%% + %%b%%, %%a*merkki1%% - %%c*merkki2%%]), vastaus);
+//let let tulostus = fracFeedback(fracSimp([%%d*merkki2%% - %%b*merkki1%%, %%a%% - %%c%%]), fmt);
 
-let fmt = formatFracAns('=1')
-let tulostus = fracFeedback(fracSimp([-7 +6, 8-9]), fmt)
-console.log(tulostus)
+console.log(fb2ndOrderEq(2,-3, 'x=-3 ja x=2'))
 
-module.exports = {
+ module.exports = {
     gcd,
     fracSum,
     fracProd,
@@ -794,11 +810,38 @@ module.exports = {
     quotofpowers,
     powerofpower,
     fbPolyProd,
-    sievennys,
-    virhe,
-    oikein,
-    syoteVirhe,
+    SIMPLIFY,
+    INCORRECT,
+    CORRECT,
+    INPUTERROR,
     Polynomial,
 };
 
 // ================================================= OLD JUNK =====================================================
+
+/**
+ * Calculates the sum of two fractions and returns an array with the corresponding num and denom. If using negative fractions,
+ * one should have the numerator be the one with the negative sign.
+ * @param {number} a num of 1st frac
+ * @param {number} b denom of 1st frac
+ * @param {number} c num of 2nd frac
+ * @param {number} d denom of 2nd frac
+ * @return {Array[number]} [num, denom] of resulting frac
+ */
+function fracSumOld(a,b,c,d){
+    let num = a*d + b*c;
+    let denom = b*d;
+    return fracSimp([num, denom]);
+}
+
+function parseAndCalcPolyProd(prod) {
+    let arr = new Polynomial().split_to_polynomials(prod)
+    if (arr.length > 2){
+        const e = new Error("No support for parsing and calculating a product of more than two polynomials.")
+                e.name = "NotImplementedError"
+                throw e;
+    }
+
+    let a = new Polynomial().interpretPolynomial(arr[0])
+    let b = new Polynomial().interpretPolynomial(arr[1])
+}

@@ -757,12 +757,13 @@ function fbPolyProd(var1, arr1, var2, arr2, input){
 
 
 /**
- * Has to have one-digit roots.
+ * Gives feedback for solution of 2nd order equation of the form (x-a)(x-b)=0 where a and b are integers.
+ * Does not check the degree of roots.
  *
- * @param {*} a
- * @param {*} b
- * @param {*} ans
- * @return {*} 
+ * @param {number} a
+ * @param {number} b
+ * @param {string} ans
+ * @return {string} feedback 
  */
 function fb2ndOrderEq(a, b, ans){
     let roots = [a,b]
@@ -777,7 +778,9 @@ function fb2ndOrderEq(a, b, ans){
         }
         ansroots.push(parseInt(match))
     }
-    return (roots.sort().join(',') === ansroots.sort().join(',')) ? CORRECT : INCORRECT;
+
+    //Remove duplicates and check that the arrays contain the same values
+    return ([...new Set(roots)].sort().join(',') === [...new Set(ansroots)].sort().join(',')) ? CORRECT : INCORRECT;
 }
 
 // ------------------ Variables END -----------------------------------
@@ -791,7 +794,7 @@ function fb2ndOrderEq(a, b, ans){
 //let fmt = formatFracAns(vastaus);
 //let let tulostus = fracFeedback(fracSimp([%%d*merkki2%% - %%b*merkki1%%, %%a%% - %%c%%]), fmt);
 
-console.log(fb2ndOrderEq(2,-3, 'x=-3 ja x=2'))
+console.log(fb2ndOrderEq(-3,-3, 'x=-3 ja x=-3'))
 
  module.exports = {
     gcd,

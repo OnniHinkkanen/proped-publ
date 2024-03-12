@@ -85,7 +85,7 @@ function fracQuot(a,b,c,d) {
 function formatFracAns(vast) {
     let tempAns = vast;
     if (tempAns.includes("=")){
-        tempAns = tempAns.substring(1);
+        tempAns = tempAns.substring(tempAns.indexOf("=") +1);
     }
     if (!tempAns.includes("/")){
         return [tempAns, '1'];
@@ -195,7 +195,7 @@ function decFeedback(a, b, ans, f){
     }
 
     if (tempAns.includes("=")){
-        tempAns = tempAns.substring(1);
+        tempAns = tempAns.substring(tempAns.indexOf("=")+1);
     }
 
     let pans = parseFloat(tempAns.replace(',','.'));
@@ -617,6 +617,13 @@ class Polynomial{
         let array = arr
         let powers = []
         for (let i = 0; i < array.length; i++){
+
+            if (array[i].search(/\d/g) == -1 && !array[i].includes(vari)){
+                const e = new Error("Problem with sorting the polynomial by power. Check that the input is of the correct form.")
+                e.name = "UserInputError"
+                throw e;
+            }
+
             if (!array[i].includes(vari)){
                 powers.push(0)
                 continue
@@ -773,12 +780,22 @@ function fb2ndOrderEq(a, b, ans){
     //Separate the user given values into an array
     for (let i = 0; i < ansrootstr.length; i++){
 
-        let match = ansrootstr[i].match(/(?<=[a-z]\=)[\-\+]?\d/gmi);
+        let match = ansrootstr[i].match(/((?<=[a-z]\=)[\-\+]?\d*\/\d*)|(?<=[a-z]\=)[\-\+]?\d*/gmi);
         // User answer is not of correct form
         if ( match == null || match == ''){
             return INPUTERROR;
         }
-        ansroots.push(parseInt(match))
+
+        //TODO:: Korjaa
+
+    for (let j = 0; j < match.length; j++){
+        if (match[j].includes("/")){
+            let vari = match[j].split("/")
+            match[j] = (1.0*parseInt(vari[0]))/(1.0*(parseInt(vari[1])))
+        }
+    } 
+
+        ansroots.push(parseFloat(match))
     }
 
     //Remove duplicates and check that the arrays contain the same values
@@ -788,13 +805,19 @@ function fb2ndOrderEq(a, b, ans){
 // ------------------ Variables END -----------------------------------
 // The line above is due to TIM integration; everything below will not get exported to TIM.
 
+console.log(new Polynomial().interpretPolynomial("= 2x^2 -3x +1").coefficients)
 
-// 10x+10=6x−6
+//console.log(fb2ndOrderEq(3/2, 1/2, "x=3/2 ja x= 1/2"))
 
-//=-16/4
+// (x+5)(x+7)
+
+//x² +3=
 
 //let fmt = formatFracAns(vastaus);
-//let let tulostus = fracFeedback(fracSimp([%%d*merkki2%% - %%b*merkki1%%, %%a%% - %%c%%]), fmt);
+//let tulostus = fracFeedback(fmt, fracSimp([%%d*merkki2%% - %%b*merkki1%%, %%a%% - %%c%%]));
+
+console.log(formatFracAns("x = 4/3"))
+
 
 console.log(fb2ndOrderEq(-2,3, 'x = -2 ja x = 3'))
 
